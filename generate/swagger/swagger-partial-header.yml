@@ -1,0 +1,12 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: swagger-api-components.yml に記載されたschemaを出力するためのヘッダ部分
+servers:
+  - url: 'https://annowork.com/api/v1'
+paths:
+  /none:
+    get:
+      responses:
+        '200':
+          description: none

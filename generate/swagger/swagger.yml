@@ -1,0 +1,1285 @@
+openapi: 3.0.0
+info:
+  title: AnnoWork Web API
+  description: |
+    [AnnoWork](https://annowork.com) のWeb APIです。
+  version: 1.0.0
+  termsOfService: 'https://annowork.com'
+  contact:
+    name: AnnoWork
+servers:
+  - url: 'https://annowork.com/api/v1'
+tags:
+  - name: login
+    x-displayName: Login
+    description: ログインの操作
+  - name: my
+    x-displayName: My
+    description: 自身のリソースに対する操作
+  - name: account
+    x-displayName: Account
+    description: ユーザーアカウント関連の操作
+  - name: organization
+    x-displayName: Organization
+    description: 組織関連の操作
+  - name: job
+    x-displayName: Job
+    description: ジョブ関連の操作
+  - name: organization-member
+    x-displayName: OrganizationMember
+    description: 組織メンバー関連の操作
+  - name: expected-working-time
+    x-displayName: ExpectedWorkingTime
+    description: 予定稼働時間関連の操作
+  - name: actual-working-time
+    x-displayName: ActualWorkingTime
+    description: 実績時間関連の操作
+  - name: schedule
+    x-displayName: Schedule
+    description: スケジュール関連の操作
+  - name: internal
+    x-displayName: Internal
+    description: 内部使用(画面等)のみを想定したAPI
+paths:
+  /login:
+    post:
+      tags:
+        - login
+      operationId: postLogin
+      summary: ログイン
+      description: ' '
+      security:
+        - Everyone: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/LoginRequest'
+        description: ''
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/LoginResponse'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}:
+    get:
+      tags:
+        - organization
+      operationId: getOrganization
+      summary: 組織の取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Organization'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - organization
+      operationId: putOrganization
+      summary: 組織の更新
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutOrganizationRequest'
+        description: ''
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Organization'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '409':
+          $ref: 'swagger-error-components.yml#/components/responses/ConflictResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/tags:
+    get:
+      tags:
+        - organization
+      operationId: getOrganizationTags
+      summary: 組織タグ一覧の取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+      responses:
+        '200':
+          description: 組織タグの一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/OrganizationTag'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/tags/{organization_tag_id}:
+    get:
+      tags:
+        - organization
+      operationId: getOrganizationTag
+      summary: 組織タグの取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationTagId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationTag'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - organization
+      operationId: putOrganizationTag
+      summary: 組織タグの更新
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationTagId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutOrganizationTagRequest'
+        description: ''
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationTag'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/tags/{organization_tag_id}/members:
+    get:
+      tags:
+        - organization
+      operationId: getOrganizationTagMembers
+      summary: 組織タグに紐付いている組織メンバーの一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationTagId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationTagMembers'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members:
+    get:
+      tags:
+        - organization-member
+      operationId: getOrganizationMembers
+      summary: 組織メンバー一覧の取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: sort
+          in: query
+          description: sort key(降順にしたい場合は先頭に-(ハイフン)を付ける)
+          required: false
+          schema:
+            type: string
+          example:
+            'sort=id or sort=-id'
+        - name: includes_inactive_members
+          in: query
+          description: 無効化した組織メンバーも含めるかどうか
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 組織メンバー一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/OrganizationMember'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}:
+    get:
+      tags:
+        - organization-member
+      operationId: getOrganizationMember
+      summary: 組織メンバーの取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationMember'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - organization-member
+      operationId: putOrganizationMember
+      summary: 組織メンバーの変更
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutOrganizationMemberRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationMember'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '409':
+          $ref: 'swagger-error-components.yml#/components/responses/ConflictResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - organization-member
+      operationId: deleteOrganizationMember
+      summary: 組織メンバーの削除
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationMember'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}/tags:
+    get:
+      tags:
+        - organization-member
+      operationId: getOrganizationMemberTags
+      summary: 組織メンバーのタグ一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/OrganizationMemberTags'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}/actual-working-times:
+    get:
+      tags:
+        - actual-working-time
+      operationId: getActualWorkingTimesByOrganizationMember
+      summary: 組織メンバーに対する実績時間の一括取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - name: term_start
+          in: query
+          description: 取得する範囲の開始日時。日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: term_end
+          in: query
+          description: 取得する範囲の終了日時。日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: 実績時間の一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/ActualWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}/actual-working-times/{actual_working_time_id}:
+    put:
+      tags:
+        - actual-working-time
+      operationId: putActualWorkingTimeByOrganizationMember
+      summary: 実績時間の更新
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - $ref: 'swagger-components.yml#/components/parameters/ActualWorkingTimeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutActualWorkingTimeRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/ActualWorkingTime'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - actual-working-time
+      operationId: deleteActualWorkingTimeByOrganizationMember
+      summary: 実績時間の削除
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - $ref: 'swagger-components.yml#/components/parameters/ActualWorkingTimeId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/ActualWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}/expected-working-times:
+    get:
+      tags:
+        - expected-working-time
+      operationId: getExpectedWorkingTimesByOrganizationMember
+      summary: 予定稼働時間の一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - name: term_start
+          in: query
+          description: 取得する範囲の開始日。日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: term_end
+          in: query
+          description: 取得する範囲の終了日。日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/ExpectedWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/members/{organization_member_id}/expected-working-times/{date}:
+    put:
+      tags:
+        - expected-working-time
+      operationId: putExpectedWorkingTimeByOrganizationMember
+      summary: 予定稼働時間の日付指定更新
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - $ref: 'swagger-components.yml#/components/parameters/Date'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutExpectedWorkingTimeRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/ExpectedWorkingTime'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - expected-working-time
+      operationId: deleteExpectedWorkingTimeByOrganizationMember
+      summary: 予定稼働時間の日付指定削除
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationMemberId'
+        - $ref: 'swagger-components.yml#/components/parameters/Date'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/ExpectedWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/jobs:
+    get:
+      tags:
+        - job
+      operationId: getJobs
+      summary: ジョブの一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: sort
+          in: query
+          description: sort key(複数項目を利用したソートの場合は,(カンマ)区切りで指定してください。key(id or name)、降順にしたい場合は先頭に-(ハイフン)を付ける)
+          required: false
+          schema:
+            type: string
+          example:
+            'sort=id,-name'
+      responses:
+        '200':
+          description: ジョブ一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/Job'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/jobs/{job_id}:
+    get:
+      tags:
+        - job
+      operationId: getJob
+      summary: ジョブの取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/JobId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Job'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - job
+      operationId: putJob
+      summary: ジョブの更新
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/JobId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutJobRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Job'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - job
+      operationId: deleteJob
+      summary: ジョブの削除
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/JobId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Job'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/jobs/{job_id}/children:
+    get:
+      tags:
+        - job
+      operationId: getJobChildren
+      summary: 子ジョブの一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/JobId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/JobChildren'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/actual-working-times:
+    get:
+      tags:
+        - actual-working-time
+      operationId: getActualWorkingTimes
+      summary: 組織全体の実績時間の一括取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: job_id
+          in: query
+          description: ジョブID
+          required: false
+          schema:
+            $ref: 'swagger-components.yml#/components/schemas/JobId'
+        - name: term_start
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: term_end
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/ActualWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/sum-of-actual-working-times:
+    get:
+      tags:
+        - actual-working-time
+      operationId: getSumOfActualWorkingTimes
+      summary: 組織全体の実績時間の合計取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: job_id
+          in: query
+          description: ジョブID
+          required: false
+          schema:
+            $ref: 'swagger-components.yml#/components/schemas/JobId'
+        - name: includes_archived_job
+          in: query
+          description: アーカイブ化したジョブの合計も含めるかどうか
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                $ref: 'swagger-components.yml#/components/schemas/SumOfTimes'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/expected-working-times:
+    get:
+      tags:
+        - expected-working-time
+      operationId: getExpectedWorkingTimes
+      summary: 予定稼働時間の一括取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: term_start
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: term_end
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/ExpectedWorkingTime'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/schedules:
+    get:
+      tags:
+        - schedule
+      operationId: getSchedules
+      summary: 作業計画の一覧取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: term_start
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: term_end
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: job_id
+          in: query
+          description: ジョブID
+          required: false
+          schema:
+            $ref: 'swagger-components.yml#/components/schemas/JobId'
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/Schedule'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/schedules/{schedule_id}:
+    get:
+      tags:
+        - schedule
+      operationId: getSchedule
+      summary: 作業計画の取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/ScheduleId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Schedule'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - schedule
+      operationId: putSchedule
+      summary: 作業計画の更新
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/ScheduleId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutScheduleRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Schedule'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '409':
+          $ref: 'swagger-error-components.yml#/components/responses/ConflictResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - schedule
+      operationId: deleteSchedule
+      summary: 作業計画の削除
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - $ref: 'swagger-components.yml#/components/parameters/ScheduleId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Schedule'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /organizations/{organization_id}/sum-of-schedules:
+    get:
+      tags:
+        - schedule
+      operationId: getSumOfSchedules
+      summary: 組織全体のスケジュール時間の合計取得
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/OrganizationId'
+        - name: job_id
+          in: query
+          description: ジョブID
+          required: false
+          schema:
+            $ref: 'swagger-components.yml#/components/schemas/JobId'
+        - name: includes_archived_job
+          in: query
+          description: アーカイブ化したジョブの合計も含めるかどうか
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 正常
+          content:
+            application/json:
+              schema:
+                $ref: 'swagger-components.yml#/components/schemas/SumOfTimes'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /my/account:
+    get:
+      tags:
+        - my
+      operationId: getMyAccount
+      summary: ログイン中のアカウント情報を取得する
+      security:
+        - Authorization: []
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Account'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - my
+      operationId: putMyAccount
+      summary: アカウント情報更新
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutMyAccountRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Account'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '409':
+          $ref: 'swagger-error-components.yml#/components/responses/ConflictResourceError'
+  /my/account/password:
+    post:
+      tags:
+        - my
+      operationId: changePassword
+      summary: パスワード変更
+      description: パスワード変更
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Message'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+        '409':
+          $ref: 'swagger-error-components.yml#/components/responses/ConflictResourceError'
+  /my/organizations:
+    get:
+      tags:
+        - my
+      operationId: getMyOrganizations
+      summary: 自身の所属する組織情報一覧を取得する
+      description: ' '
+      security:
+        - Authorization: []
+      responses:
+        '200':
+          description: 自身の組織情報一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/Organization'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /my/organization-members:
+    get:
+      tags:
+        - my
+      operationId: getMyOrganizationMembers
+      summary: 自身の組織メンバー情報一覧を取得する
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - name: organization_id
+          in: query
+          description: 組織IDを指定することで対象の組織に所属している組織メンバー情報のみを取得できる
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 自身の組織メンバー情報一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/OrganizationMember'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /my/schedules:
+    get:
+      tags:
+        - my
+      operationId: getMySchedules
+      summary: 自身がアサインされているスケジュール一覧を取得する
+      description: ' '
+      security:
+        - Authorization: []
+      parameters:
+        - name: organization_id
+          in: query
+          description: 組織IDを指定することで対象の組織でアサインされているスケジュールのみを取得できる
+          required: false
+          schema:
+            type: string
+        - name: term_start
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: term_end
+          in: query
+          description: 日付での範囲検索で使用
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 自身のスケジュール情報一覧
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'swagger-components.yml#/components/schemas/Schedule'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+  /logs/log:
+    post:
+      tags:
+        - internal
+      operationId: postLog
+      summary: ログ記録
+      description: ' '
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/LogRequest'
+      responses:
+        '204':
+          description: ログ記録成功時
+  /sign-up:
+    post:
+      tags:
+        - account
+      operationId: signUp
+      summary: サインアップstep1（仮登録）
+      description: |
+        アカウントのサインアップの最初のステップとして、アカウントを仮登録します。
+
+        AnnoWorkに未登録のメールアドレスであれば、新規アカウントが仮登録状態で作成され、本登録フローのためのメールが送信されます。
+        このメールには仮パスワードなどが記載されています。
+
+        指定したメールアドレスを使うユーザーが仮登録であれば、本登録フローのメールが再送信されます。
+        指定したメールアドレスを使うユーザーが本登録であれば、不正なリクエストとしてエラーを返します（本登録が仮登録に戻ることはありません）。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/SignUpRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Message'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+  /confirm-sign-up:
+    post:
+      tags:
+        - account
+      operationId: confirmSignUp
+      summary: サインアップstep2（本登録）
+      description: アカウントのサインアップの最後のステップとして、アカウントを本登録します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/ConfirmSignUpRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Message'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+  /reset-password:
+    post:
+      tags:
+        - account
+      operationId: resetPassword
+      summary: パスワードリセットstep1（開始）
+      description: |
+        パスワードリセットに必要な確認コードをメールで送付します。
+        後続の[新しいパスワードに変更](#operation/confirmResetPassword)を実行することで、新しいパスワードに変更できます。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Message'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+  /confirm-reset-password:
+    post:
+      tags:
+        - account
+      operationId: confirmResetPassword
+      summary: パスワードリセットstep2（新しいパスワードに変更）
+      description: |
+        新しいパスワードに変更します。
+        本人確認のため、[パスワードリセットを要求](#operation/resetPassword)で受信したメールに記載された検証コードを使用します。
+
+        パスワードリセットプロセスの最終ステップです。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/ConfirmResetPasswordRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/Message'
+        '400':
+          $ref: 'swagger-error-components.yml#/components/responses/InvalidRequestError'
+  /accounts/{user_id}/external-linkage-info:
+    get:
+      tags:
+        - account
+      operationId: getAccountExternalLinkageInfo
+      summary: アカウント外部連携情報取得
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/UserId'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/AccountExternalLinkageInfoResponse'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+    put:
+      tags:
+        - account
+      operationId: putAccountExternalLinkageInfo
+      summary: アカウント外部連携情報更新
+      security:
+        - Authorization: []
+      parameters:
+        - $ref: 'swagger-components.yml#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'swagger-components.yml#/components/schemas/PutAccountExternalLinkageInfoRequest'
+      responses:
+        '200':
+          $ref: 'swagger-components.yml#/components/responses/AccountExternalLinkageInfoResponse'
+        '401':
+          $ref: 'swagger-error-components.yml#/components/responses/UnauthorizedApiError'
+        '403':
+          $ref: 'swagger-error-components.yml#/components/responses/ForbiddenResourceError'
+        '404':
+          $ref: 'swagger-error-components.yml#/components/responses/MissingResourceError'
+        '500':
+          $ref: 'swagger-error-components.yml#/components/responses/InternalServerError'
+
+
+

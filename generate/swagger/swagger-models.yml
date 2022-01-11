@@ -1,0 +1,746 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: swagger-api-components.yml に記載されたschemaを出力するためのヘッダ部分
+servers:
+  - url: 'https://annowork.com/api/v1'
+paths:
+  /none:
+    get:
+      responses:
+        '200':
+          description: none
+components:
+  schemas:
+    OrganizationId:
+      type: string
+      description: 組織ID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    OrganizationTagId:
+      type: string
+      description: 組織タグID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    OrganizationTagName:
+      type: string
+      description: 組織タグ名
+    CreatedDateTime:
+      type: string
+      description: 作成日時
+      format: date-time
+    UpdatedDateTime:
+      type: string
+      description: 更新日時
+      format: date-time
+    ActualWorkingTimeId:
+      type: string
+      description: 実績稼働時間ID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    OrganizationMemberId:
+      type: string
+      description: 組織メンバーID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    JobId:
+      type: string
+      description: ジョブID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    ScheduleId:
+      type: string
+      description: スケジュールID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    AccountId:
+      type: string
+      description: アカウントID
+      example: 12345678-abcd-1234-abcd-1234abcd5678
+    UserId:
+      type: string
+      description: ユーザーID
+      example: user1
+    Username:
+      type: string
+      description: ユーザー名(氏名)
+    Password:
+      type: string
+      description: パスワード
+    Email:
+      type: string
+      description: メールアドレス
+      example: user@example.com
+    Locale:
+      description: ロケール
+      type: string
+      enum: [ja-JP, en-US]
+    Authority:
+      description: アカウントの権限
+      type: string
+      enum: [user, admin]
+    Role:
+      description: 組織メンバーの権限
+      type: string
+      enum: [worker, manager, owner]
+    ScheduleType:
+      description: '値の形式(hours: 固定値の時間、percentage: 予定稼働時間に対する割合(%))'
+      type: string
+      enum: [hours, percentage]
+    ScheduleValue:
+      description: |-
+        値：値の形式が(hours: 稼働時間(時)、percentage: 予定稼働時間に対する割合(%))。
+        1分(0.0166...)単位で入力されることを想定して、最小値は0.01とします。
+        最大値は、値の形式がhoursの場合は24、percentageの場合は100です。
+      type: number
+      minimum: 0.01
+      maximum: 100
+    ExpectedWorkingHours:
+      description: 予定稼働時間(時)。1分(0.0166...)単位で入力されることを想定して、最小値は0.01とします。
+      type: number
+      minimum: 0.01
+      maximum: 24
+      example: 8
+    Account:
+      type: object
+      required:
+        - account_id
+        - user_id
+        - username
+        - email
+        - locale
+        - authority
+        - created_datetime
+        - updated_datetime
+        - external_linkage_info
+      properties:
+        account_id:
+          $ref: '#/components/schemas/AccountId'
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/Username'
+        email:
+          $ref: '#/components/schemas/Email'
+        locale:
+          $ref: '#/components/schemas/Locale'
+        authority:
+          $ref: '#/components/schemas/Authority'
+        external_linkage_info:
+          $ref: '#/components/schemas/AccountExternalLinkageInfo'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    AccountExternalLinkageInfo:
+      type: object
+      properties:
+        annofab:
+          type: object
+          properties:
+            account_id:
+              type: string
+    LoginRequest:
+      type: object
+      required:
+        - user_id
+        - password
+      properties:
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        password:
+          $ref: '#/components/schemas/Password'
+    PutOrganizationRequest:
+      type: object
+      required:
+        - organization_name
+        - email
+      properties:
+        organization_name:
+          type: string
+          description: 組織名
+        email:
+          $ref: '#/components/schemas/Email'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    PutOrganizationTagRequest:
+      type: object
+      required:
+        - organization_tag_name
+      properties:
+        organization_tag_name:
+          $ref: '#/components/schemas/OrganizationTagName'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    PutOrganizationMemberRequest:
+      type: object
+      required:
+        - role
+        - organization_tags
+      properties:
+        user_id:
+          allOf:
+            - $ref: '#/components/schemas/UserId'
+          description: 組織にメンバーとして追加したいユーザーのID
+        role:
+          $ref: '#/components/schemas/Role'
+        organization_tags:
+          type: array
+          description: 組織タグIDの一覧
+          items:
+            $ref: '#/components/schemas/OrganizationTagId'
+        last_updated_datetime:
+          allOf:
+            - $ref: '#/components/schemas/UpdatedDateTime'
+          description: 対象の組織メンバー情報の最終更新日（組織メンバー情報を更新する場合には必須項目)
+    PutExpectedWorkingTimeRequest:
+      type: object
+      required:
+        - expected_working_hours
+      properties:
+        expected_working_hours:
+          $ref: '#/components/schemas/ExpectedWorkingHours'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    PutJobRequest:
+      type: object
+      required:
+        - job_name
+        - status
+      properties:
+        job_name:
+          description: ジョブ名
+          type: string
+        parent_job_id:
+          description: 親ジョブのジョブID
+          $ref: '#/components/schemas/JobId'
+        status:
+          description: 状態
+          type: string
+          enum: [unarchived, archived]
+        note:
+          description: 備考
+          type: string
+          default: ""
+        target_hours:
+          description: 目標時間(時)。1分(0.0166...)単位で入力されることを想定して、最小値は0.01とします。
+          type: number
+          minimum: 0.01  #分単位を表現するため少数第2位まで利用する
+        external_linkage_info:
+          $ref: '#/components/schemas/JobExternalLinkageInfo'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    LoginToken:
+      type: object
+      properties:
+        id_token:
+          type: string
+          description: IDトークン
+        access_token:
+          type: string
+          description: アクセストークン
+        refresh_token:
+          type: string
+          description: リフレッシュトークン
+    PutActualWorkingTimeRequest:
+      type: object
+      required:
+        - job_id
+        - start_datetime
+        - end_datetime
+      properties:
+        job_id:
+          $ref: '#/components/schemas/JobId'
+        start_datetime:
+          type: string
+          format: date-time
+          example: 2020-01-01T23:55:03Z
+        end_datetime:
+          type: string
+          format: date-time
+          example: 2020-01-02T01:02:03Z
+        note:
+          type: string
+          description: 備考
+          default: ""
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    Organization:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        organization_name:
+          type: string
+          description: 組織名
+        email:
+          $ref: '#/components/schemas/Email'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    OrganizationMember:
+      type: object
+      properties:
+        organization_member_id:
+          $ref: '#/components/schemas/OrganizationMemberId'
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        account_id:
+          $ref: '#/components/schemas/AccountId'
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/Username'
+        role:
+          $ref: '#/components/schemas/Role'
+        status:
+          type: string
+          enum: [active, inactive, waiting_response]
+          description: 組織メンバーの状態
+        inactivated_datetime:
+          type: string
+          format: date-time
+          description: 組織メンバーが組織から脱退した日時
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    OrganizationMemberTags:
+      type: array
+      description: 組織メンバーに紐付いている組織タグの一覧
+      items:
+        $ref: '#/components/schemas/OrganizationTag'
+    OrganizationTag:
+      type: object
+      properties:
+        organization_tag_id:
+          $ref: '#/components/schemas/OrganizationTagId'
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        organization_tag_name:
+          $ref: '#/components/schemas/OrganizationTagName'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    OrganizationTagMembers:
+      type: array
+      description: 組織タグが付いている組織メンバーの一覧
+      items:
+        $ref: '#/components/schemas/OrganizationMember'
+    ExpectedWorkingTime:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        organization_member_id:
+          $ref: '#/components/schemas/OrganizationMemberId'
+        date:
+          type: string
+          format: date
+        expected_working_hours:
+          $ref: '#/components/schemas/ExpectedWorkingHours'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    Job:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        job_id:
+          $ref: '#/components/schemas/JobId'
+        job_name:
+          description: ジョブ名
+          type: string
+        job_tree:
+          description: ジョブのツリーパス
+          type: string
+        status:
+          description: 状態
+          type: string
+          enum: [unarchived, archived]
+        target_hours:
+          description: 目標時間(時)。1分(0.0166...)単位で入力されることを想定して、最小値は0.01とします。
+          type: number
+        note:
+          description: 備考
+          type: string
+        external_linkage_info:
+          $ref: '#/components/schemas/JobExternalLinkageInfo'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    JobChildren:
+      type: array
+      items:
+        $ref: '#/components/schemas/Job'
+    JobExternalLinkageInfo:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: 外部参照URL
+    ActualWorkingTime:
+      type: object
+      properties:
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        actual_working_time_id:
+          $ref: '#/components/schemas/ActualWorkingTimeId'
+        job_id:
+          $ref: '#/components/schemas/JobId'
+        organization_member_id:
+          $ref: '#/components/schemas/OrganizationMemberId'
+        start_datetime:
+          description: 稼働開始日時
+          type: string
+          format: date-time
+        end_datetime:
+          description: 稼働終了日時
+          type: string
+          format: date-time
+        note:
+          description: 備考
+          type: string
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    SumOfTimes:
+      type: object
+      description: ジョブごとの実績時間、またはスケジュール時間の合計値を表すオブジェクトです。keyにはジョブID、valueのobjectには組織メンバーIDとその合計値が設定されます。
+      example:
+        - job_id_1:
+          organization_member_id_1: 10
+          organization_member_id_2: 3.5
+        - job_id_2:
+          organization_member_id_1: 30
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: number
+          description: 合計値(単位:時)
+          minimum: 0
+    Schedule:
+      type: object
+      properties:
+        schedule_id:
+          $ref: '#/components/schemas/ScheduleId'
+        organization_id:
+          $ref: '#/components/schemas/OrganizationId'
+        job_id:
+          $ref: '#/components/schemas/JobId'
+        organization_member_id:
+          $ref: '#/components/schemas/OrganizationMemberId'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        type:
+          $ref: '#/components/schemas/ScheduleType'
+        value:
+          $ref: '#/components/schemas/ScheduleValue'
+        created_datetime:
+          $ref: '#/components/schemas/CreatedDateTime'
+        updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    PutScheduleRequest:
+      type: object
+      required:
+        - job_id
+        - organization_member_id
+        - start_date
+        - end_date
+        - type
+        - value
+      properties:
+        job_id:
+          $ref: '#/components/schemas/JobId'
+        organization_member_id:
+          $ref: '#/components/schemas/OrganizationMemberId'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        type:
+          $ref: '#/components/schemas/ScheduleType'
+        value:
+          $ref: '#/components/schemas/ScheduleValue'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+    LogRequest:
+      type: object
+      required:
+        - client_datetime
+        - log_level
+        - message
+      properties:
+        client_datetime:
+          description: クライアント日時
+          type: string
+          format: date-time
+        log_level:
+          description: ログレベル
+          type: string
+          enum: [INFO, WARN, ERROR]
+        message:
+          type: string
+          example: Request Timeout
+          description: ログに記録したいメッセージ本文
+        stacktrace:
+          type: string
+          example: "Uncaught Error: Request Timeout at <anonymous>:1:31"
+          description: 発生したエラーのstacktrace
+        environment:
+          type: object
+          example:
+            project_id: 41898e79-0075-4b3a-8718-1b3d5d6xxxxx
+            key-a: value-a
+            key-b: value-b
+          description: key valueを指定可能にしておいて複数件の情報をennvironmentに詰めることを想定してます
+    SignUpRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+    ConfirmSignUpRequest:
+      type: object
+      required:
+        - account_id
+        - confirmation_code
+        - username
+        - user_id
+        - password
+        - locale
+      properties:
+        account_id:
+          $ref: '#/components/schemas/AccountId'
+        confirmation_code:
+          description: サインアップ検証コード
+          type: string
+        username:
+          $ref: '#/components/schemas/Username'
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        password:
+          $ref: '#/components/schemas/Password'
+        locale:
+          $ref: '#/components/schemas/Locale'
+    ResetPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+    ConfirmResetPasswordRequest:
+      type: object
+      required:
+        - user_id
+        - confirmation_code
+        - new_password
+      properties:
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        confirmation_code:
+          description: パスワードリセット検証コード
+          type: string
+        new_password:
+          $ref: '#/components/schemas/Password'
+    PutMyAccountRequest:
+      type: object
+      required:
+        - username
+        - user_id
+        - locale
+        - last_updated_datetime
+      properties:
+        user_id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/Username'
+        locale:
+          $ref: '#/components/schemas/Locale'
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+        external_linkage_info:
+          $ref: '#/components/schemas/AccountExternalLinkageInfo'
+          default: {}
+    ChangePasswordRequest:
+      type: object
+      required:
+        - new_password
+        - old_password
+      properties:
+        new_password:
+          $ref: '#/components/schemas/Password'
+        old_password:
+          $ref: '#/components/schemas/Password'
+    PutAccountExternalLinkageInfoRequest:
+      type: object
+      required:
+        - last_updated_datetime
+      properties:
+        external_linkage_info:
+          $ref: '#/components/schemas/AccountExternalLinkageInfo'
+          default: {}
+        last_updated_datetime:
+          $ref: '#/components/schemas/UpdatedDateTime'
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      description: 組織ID
+      required: true
+      schema:
+        $ref: '#/components/schemas/OrganizationId'
+    OrganizationTagId:
+      name: organization_tag_id
+      in: path
+      description: 組織タグID
+      required: true
+      schema:
+        $ref: '#/components/schemas/OrganizationTagId'
+    ActualWorkingTimeId:
+      name: actual_working_time_id
+      in: path
+      description: 実績稼働時間ID
+      required: true
+      schema:
+        $ref: '#/components/schemas/ActualWorkingTimeId'
+    OrganizationMemberId:
+      name: organization_member_id
+      in: path
+      description: 組織メンバーID
+      required: true
+      schema:
+        $ref: '#/components/schemas/OrganizationMemberId'
+    UserId:
+      name: user_id
+      in: path
+      description: ユーザーID
+      required: true
+      schema:
+        $ref: '#/components/schemas/UserId'
+    JobId:
+      name: job_id
+      in: path
+      description: ジョブID
+      required: true
+      schema:
+        $ref: '#/components/schemas/JobId'
+    ScheduleId:
+      name: schedule_id
+      in: path
+      description: スケジュールID
+      required: true
+      schema:
+        $ref: '#/components/schemas/ScheduleId'
+    Date:
+      name: date
+      in: path
+      description: 予定の対象日
+      required: true
+      schema:
+        type: string
+        format: date
+  responses:
+    LoginResponse:
+      description: 正常ログイン
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginToken"
+    Organization:
+      description: 組織
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Organization'
+    OrganizationTag:
+      description: 組織タグ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationTag'
+    OrganizationTagMembers:
+      description: 組織タグに紐付いている組織メンバーの一覧
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationTagMembers'
+    OrganizationMember:
+      description: 組織メンバー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationMember'
+    OrganizationMemberTags:
+      description: 組織メンバーのタグ一覧
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OrganizationMemberTags'
+    ExpectedWorkingTime:
+      description: 該当日の予定稼働時間
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExpectedWorkingTime'
+    Job:
+      description: ジョブ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Job'
+    JobChildren:
+      description: 子ジョブの一覧
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/JobChildren'
+    ActualWorkingTime:
+      description: 実績時間
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ActualWorkingTime'
+    Schedule:
+      description: 作業計画
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Schedule'
+    Account:
+      description: ログインユーザー情報
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Account'
+    AccountExternalLinkageInfoResponse:
+      description: アカウント外部連携情報
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              external_linkage_info:
+                $ref: '#/components/schemas/AccountExternalLinkageInfo'
+              updated_datetime:
+                $ref: '#/components/schemas/UpdatedDateTime'
+    Message:
+      description: 結果メッセージ
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                type: string

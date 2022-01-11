@@ -1,0 +1,15 @@
+components:
+  securitySchemes:
+    Everyone:
+      description: |
+        AnnoWorkのユーザーなら誰でも利用できます。
+        認証/認可には、RequestBodyに含まれるパスワード、トークン、または何らかの検証コードを用います。
+      type: "http"
+      scheme: "requestBody"
+    Authorization:
+      description: |
+        AnnoWorkのユーザーなら誰でも利用できます。
+        認証/認可には、HTTPリクエストの `Authorization` ヘッダーに格納されたIDトークンを用います。
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"

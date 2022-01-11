@@ -1,0 +1,77 @@
+components:
+  schemas:
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorItem'
+    ErrorItem:
+      type: object
+      properties:
+        error_code:
+          type: string
+        message:
+          type: string
+          description: エラーの概要
+        ext:
+          type: object
+          description: 補足情報
+    UnauthorizedApiError:
+      $ref: '#/components/schemas/Errors'
+    InvalidRequestError:
+      $ref: '#/components/schemas/Errors'
+    ForbiddenResourceError:
+      $ref: '#/components/schemas/Errors'
+    MissingResourceError:
+      $ref: '#/components/schemas/Errors'
+    ConflictResourceError:
+      $ref: '#/components/schemas/Errors'
+    InternalServerError:
+      $ref: '#/components/schemas/Errors'
+    ErrorUnderMaintenance:
+      $ref: '#/components/schemas/Errors'
+  responses:
+    UnauthorizedApiError:
+      description: 認証エラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UnauthorizedApiError"
+    InvalidRequestError:
+      description: リクエスト形式が正しくないか、もしくは必要な属性が足りません
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/InvalidRequestError"
+    ForbiddenResourceError:
+      description: アクセスが認可されていないリソースを指定されました
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ForbiddenResourceError"
+    MissingResourceError:
+      description: 存在しないリソースを指定されました
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MissingResourceError"
+    ConflictResourceError:
+      description: 登録・削除しようとしたリソースの競合が発生しました
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ConflictResourceError"
+    InternalServerError:
+      description: 予期せぬエラーが発生しました
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
+    ErrorUnderMaintenance:
+      description: システムメンテナンス中
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorUnderMaintenance'

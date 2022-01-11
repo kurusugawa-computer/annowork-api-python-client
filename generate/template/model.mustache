@@ -1,0 +1,22 @@
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{! enumならば列挙体として定義する }}
+class {{classname}}(Enum):
+    """
+    {{#description}}
+    {{{description}}}
+    {{/description}}
+    """
+
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}}
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+
+{{/isEnum}}
+{{/model}}
+
+{{/models}}
