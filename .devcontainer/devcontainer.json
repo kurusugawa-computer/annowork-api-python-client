@@ -29,7 +29,7 @@
 		"--env=ANNOWORK_USER_ID",
 		"--env=ANNOWORK_PASSWORD",
 	],
-	"postStartCommand": "&& poetry install",
+	"postStartCommand": "poetry install",
 	"extensions": [
 		"bungcip.better-toml",
 		"jgclark.vscode-todo-highlight",
