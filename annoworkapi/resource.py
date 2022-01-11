@@ -16,7 +16,7 @@ class Resource:
     Args:
         login_user_id: ログインするときのユーザID
         login_password:ログインするときのパスワード
-        endpoint_url:
+        endpoint_url: annoworkのendpointであるURL
 
     """
 
@@ -73,7 +73,7 @@ def build_from_env(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
 
 def build(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     """
-    `.netrc`ファイルまたは環境変数から認証情報を取得し、Resourceインスタンスを生成します。
+    ``.netrc`` ファイルまたは環境変数から認証情報を取得し、Resourceインスタンスを生成します。
     netrc, 環境変数の順に認証情報を読み込みます。
 
     """

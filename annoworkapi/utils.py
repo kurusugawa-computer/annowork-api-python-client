@@ -9,10 +9,10 @@ def str_to_datetime(str_datetime: str) -> datetime.datetime:
     datetime objectはawareです。
 
     Args:
-        str_datetime (str): ISO8601の文字列（ex: '2021-04-01T01:23:45.678Z'）
+        str_datetime (str): ISO8601の文字列（例： ``2021-04-01T01:23:45.678Z`` ）
 
     Returns:
-        datetime.datetime: datetime object
+        datetime object
     """
     # 末尾がZだと、datetime.fromisoformatが利用できないので、strptimeでパースする
     return datetime.datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
@@ -24,10 +24,10 @@ def datetime_to_str(dt: datetime.datetime) -> str:
     datetime objectがnativeの場合、UTCとみなします。
 
     Args:
-        datetime: ISO8601の文字列（ex: '2021-04-01T01:23:45.678Z'）
+        datetime: ISO8601の文字列（例： ``2021-04-01T01:23:45.678Z`` ）
 
     Returns:
-        ISO8601の文字列（ex: '2021-04-01T01:23:45.678Z'）
+        ISO8601の文字列（例： ``2021-04-01T01:23:45.678Z`` ）
 
     Raises:
         ValueError: datetimeオブジェクトがnativeなオブジェクト（タイムゾーン情報が含まれていない）のとき
