@@ -1,7 +1,8 @@
+import configparser
 import datetime
 import os
+
 import annoworkapi
-import configparser
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)) + "/../")
 inifile = configparser.ConfigParser()

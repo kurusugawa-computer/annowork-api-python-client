@@ -1,7 +1,5 @@
-import datetime
-import os
-import annoworkapi
 import configparser
+import os
 
 import annoworkapi
 
@@ -18,5 +16,3 @@ class TestOrganization:
     def test_get_organization(self):
         organization = service.api.get_organization(organization_id)
         assert organization["organization_id"] == organization_id
-
-

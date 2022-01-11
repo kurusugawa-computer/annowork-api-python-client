@@ -1,7 +1,5 @@
 import logging
 
-import pytest
-
 
 def pytest_addoption(parser):
     parser.addoption("--print_log_annoworkapi", action="store_true", default=False, help="annoworkapiモジュールのログを表示する。")

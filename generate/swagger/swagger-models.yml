@@ -410,10 +410,10 @@ components:
       description: ジョブごとの実績時間、またはスケジュール時間の合計値を表すオブジェクトです。keyにはジョブID、valueのobjectには組織メンバーIDとその合計値が設定されます。
       example:
         - job_id_1:
-          organization_member_id_1: 10
-          organization_member_id_2: 3.5
+            organization_member_id_1: 10
+            organization_member_id_2: 3.5
         - job_id_2:
-          organization_member_id_1: 30
+            organization_member_id_1: 30
       additionalProperties:
         type: object
         additionalProperties:
