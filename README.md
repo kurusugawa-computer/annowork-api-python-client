@@ -24,7 +24,7 @@ $ pip install annoworkapi
 ### `$HOME/.netrc`
 
 ```
-machine annofab.com
+machine annowork.com
 login ${user_id}
 password ${password}
 ```
