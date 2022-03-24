@@ -65,4 +65,4 @@ DEBUG    : 2022-01-11 17:36:04,354 : api.py : annoworkapi.api : _request_wrapper
 
 
 # 開発者用ドキュメント
-[README_for_developer.md](README_for_developer.md) 参照
+[README_for_developer.md](https://github.com/kurusugawa-computer/annowork-api-python-client/blob/main/README_for_developer.md) 参照
