@@ -11,7 +11,7 @@ from annoworkapi.utils import datetime_to_str, str_to_datetime
 
 _ActualWorkingHoursDict = Dict[Tuple[datetime.date, str, str], float]
 """実績作業時間の日ごとの情報を格納する辞書
-key: (date, organization_member_id, job_id), value: 実績作業時間
+key: (date, workspace_member_id, job_id), value: 実績作業時間
 """
 
 
@@ -57,12 +57,12 @@ def _create_actual_working_hours_dict(actual: dict[str, Any], tzinfo: datetime.t
     dt_local_start_datetime = str_to_datetime(actual["start_datetime"]).astimezone(tzinfo)
     dt_local_end_datetime = str_to_datetime(actual["end_datetime"]).astimezone(tzinfo)
 
-    organization_member_id = actual["organization_member_id"]
+    workspace_member_id = actual["workspace_member_id"]
     job_id = actual["job_id"]
 
     if dt_local_start_datetime.date() == dt_local_end_datetime.date():
         actual_working_hours = (dt_local_end_datetime - dt_local_start_datetime).total_seconds() / 3600
-        results_dict[(dt_local_start_datetime.date(), organization_member_id, job_id)] = actual_working_hours
+        results_dict[(dt_local_start_datetime.date(), workspace_member_id, job_id)] = actual_working_hours
     else:
         dt_tmp_local_start_datetime = dt_local_start_datetime
 
@@ -73,11 +73,11 @@ def _create_actual_working_hours_dict(actual: dict[str, Any], tzinfo: datetime.t
                 year=dt_next_date.year, month=dt_next_date.month, day=dt_next_date.day, tzinfo=tzinfo
             )
             actual_working_hours = (dt_tmp_local_end_datetime - dt_tmp_local_start_datetime).total_seconds() / 3600
-            results_dict[(dt_tmp_local_start_datetime.date(), organization_member_id, job_id)] = actual_working_hours
+            results_dict[(dt_tmp_local_start_datetime.date(), workspace_member_id, job_id)] = actual_working_hours
             dt_tmp_local_start_datetime = dt_tmp_local_end_datetime
 
         actual_working_hours = (dt_local_end_datetime - dt_tmp_local_start_datetime).total_seconds() / 3600
-        results_dict[(dt_local_end_datetime.date(), organization_member_id, job_id)] = actual_working_hours
+        results_dict[(dt_local_end_datetime.date(), workspace_member_id, job_id)] = actual_working_hours
 
     return results_dict
 
@@ -95,7 +95,7 @@ def create_actual_working_times_daily(
         日付、ジョブ、メンバ単位で集計した実績時間のlistを返します。listの要素はdictで以下のキーを持ちます。
          * date
          * job_id
-         * organization_member_id
+         * workspace_member_id
          * actual_working_hours
     """
     results_dict: _ActualWorkingHoursDict = defaultdict(float)
@@ -110,13 +110,13 @@ def create_actual_working_times_daily(
             results_dict[key] += value
 
     results_list: list[dict[str, Any]] = []
-    for (date, organization_member_id, job_id), actual_working_hours in results_dict.items():
+    for (date, workspace_member_id, job_id), actual_working_hours in results_dict.items():
         # 実績作業時間が0の情報は不要なので、結果情報に格納しない
         if actual_working_hours > 0:
             results_list.append(
                 dict(
                     date=str(date),
-                    organization_member_id=organization_member_id,
+                    workspace_member_id=workspace_member_id,
                     job_id=job_id,
                     actual_working_hours=actual_working_hours,
                 )
