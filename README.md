@@ -59,8 +59,8 @@ logging.getLogger("annoworkapi").setLevel(level=logging.DEBUG)
 
 
 ```
-In [1]: c = s.api.get_actual_working_times_by_organization_member("a9956d30-b201-418a-a03b-b9b8b55b2e3d", "204bf4d9-4569-4b7b-89b9-84f089201247")
-DEBUG    : 2022-01-11 17:36:04,354 : api.py : annoworkapi.api : _request_wrapper : Sent a request :: {'request': {'http_method': 'get', 'url': 'https://annowork.com/api/v1/organizations/a9956d30-b201-418a-a03b-b9b8b55b2e3d/members/204bf4d9-4569-4b7b-89b9-84f089201247/actual-working-times', 'query_params': None, 'header_params': None, 'request_body': None}, 'response': {'status_code': 200, 'content_length': 209988}}
+In [1]: c = s.api.get_actual_working_times_by_workspacen_member("a9956d30-b201-418a-a03b-b9b8b55b2e3d", "204bf4d9-4569-4b7b-89b9-84f089201247")
+DEBUG    : 2022-01-11 17:36:04,354 : api.py : annoworkapi.api : _request_wrapper : Sent a request :: {'request': {'http_method': 'get', 'url': 'https://annowork.com/api/v1/workspacens/a9956d30-b201-418a-a03b-b9b8b55b2e3d/members/204bf4d9-4569-4b7b-89b9-84f089201247/actual-working-times', 'query_params': None, 'header_params': None, 'request_body': None}, 'response': {'status_code': 200, 'content_length': 209988}}
 ```
 
 
