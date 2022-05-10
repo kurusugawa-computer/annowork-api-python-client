@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "annoworkapi"
-version = "2.0.0"
+version = "3.0.0b0"
 description = "Python Clinet Library of AnnoWork WebAPI"
 authors = ["yuji38kwmt"]
 license = "MIT"

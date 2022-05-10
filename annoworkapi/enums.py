@@ -36,7 +36,7 @@ class Locale(Enum):
 
 class Role(Enum):
     """
-    組織メンバーの権限
+    ワークスペースメンバーの権限
     """
 
     WORKER = "worker"

@@ -12,17 +12,17 @@ paths:
           description: none
 components:
   schemas:
-    OrganizationId:
+    WorkspaceId:
       type: string
-      description: 組織ID
+      description: ワークスペースID
       example: 12345678-abcd-1234-abcd-1234abcd5678
-    OrganizationTagId:
+    WorkspaceTagId:
       type: string
-      description: 組織タグID
+      description: ワークスペースタグID
       example: 12345678-abcd-1234-abcd-1234abcd5678
-    OrganizationTagName:
+    WorkspaceTagName:
       type: string
-      description: 組織タグ名
+      description: ワークスペースタグ名
     CreatedDateTime:
       type: string
       description: 作成日時
@@ -35,9 +35,9 @@ components:
       type: string
       description: 実績稼働時間ID
       example: 12345678-abcd-1234-abcd-1234abcd5678
-    OrganizationMemberId:
+    WorkspaceMemberId:
       type: string
-      description: 組織メンバーID
+      description: ワークスペースメンバーID
       example: 12345678-abcd-1234-abcd-1234abcd5678
     JobId:
       type: string
@@ -74,7 +74,7 @@ components:
       type: string
       enum: [user, admin]
     Role:
-      description: 組織メンバーの権限
+      description: ワークスペースメンバーの権限
       type: string
       enum: [worker, manager, owner]
     ScheduleType:
@@ -144,49 +144,49 @@ components:
           $ref: '#/components/schemas/UserId'
         password:
           $ref: '#/components/schemas/Password'
-    PutOrganizationRequest:
+    PutWorkspaceRequest:
       type: object
       required:
-        - organization_name
+        - workspace_name
         - email
       properties:
-        organization_name:
+        workspace_name:
           type: string
-          description: 組織名
+          description: ワークスペース名
         email:
           $ref: '#/components/schemas/Email'
         last_updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    PutOrganizationTagRequest:
+    PutWorkspaceTagRequest:
       type: object
       required:
-        - organization_tag_name
+        - workspace_tag_name
       properties:
-        organization_tag_name:
-          $ref: '#/components/schemas/OrganizationTagName'
+        workspace_tag_name:
+          $ref: '#/components/schemas/WorkspaceTagName'
         last_updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    PutOrganizationMemberRequest:
+    PutWorkspaceMemberRequest:
       type: object
       required:
         - role
-        - organization_tags
+        - workspace_tags
       properties:
         user_id:
           allOf:
             - $ref: '#/components/schemas/UserId'
-          description: 組織にメンバーとして追加したいユーザーのID
+          description: ワークスペースにメンバーとして追加したいユーザーのID
         role:
           $ref: '#/components/schemas/Role'
-        organization_tags:
+        workspace_tags:
           type: array
-          description: 組織タグIDの一覧
+          description: ワークスペースタグIDの一覧
           items:
-            $ref: '#/components/schemas/OrganizationTagId'
+            $ref: '#/components/schemas/WorkspaceTagId'
         last_updated_datetime:
           allOf:
             - $ref: '#/components/schemas/UpdatedDateTime'
-          description: 対象の組織メンバー情報の最終更新日（組織メンバー情報を更新する場合には必須項目)
+          description: 対象のワークスペースメンバー情報の最終更新日（ワークスペースメンバー情報を更新する場合には必須項目)
     PutExpectedWorkingTimeRequest:
       type: object
       required:
@@ -259,27 +259,27 @@ components:
           default: ""
         last_updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    Organization:
+    Workspace:
       type: object
       properties:
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
-        organization_name:
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
+        workspace_name:
           type: string
-          description: 組織名
+          description: ワークスペース名
         email:
           $ref: '#/components/schemas/Email'
         created_datetime:
           $ref: '#/components/schemas/CreatedDateTime'
         updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    OrganizationMember:
+    WorkspaceMember:
       type: object
       properties:
-        organization_member_id:
-          $ref: '#/components/schemas/OrganizationMemberId'
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
+        workspace_member_id:
+          $ref: '#/components/schemas/WorkspaceMemberId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
         account_id:
           $ref: '#/components/schemas/AccountId'
         user_id:
@@ -291,45 +291,45 @@ components:
         status:
           type: string
           enum: [active, inactive, waiting_response]
-          description: 組織メンバーの状態
+          description: ワークスペースメンバーの状態
         inactivated_datetime:
           type: string
           format: date-time
-          description: 組織メンバーが組織から脱退した日時
+          description: ワークスペースメンバーがワークスペースから脱退した日時
         created_datetime:
           $ref: '#/components/schemas/CreatedDateTime'
         updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    OrganizationMemberTags:
+    WorkspaceMemberTags:
       type: array
-      description: 組織メンバーに紐付いている組織タグの一覧
+      description: ワークスペースメンバーに紐付いているワークスペースタグの一覧
       items:
-        $ref: '#/components/schemas/OrganizationTag'
-    OrganizationTag:
+        $ref: '#/components/schemas/WorkspaceTag'
+    WorkspaceTag:
       type: object
       properties:
-        organization_tag_id:
-          $ref: '#/components/schemas/OrganizationTagId'
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
-        organization_tag_name:
-          $ref: '#/components/schemas/OrganizationTagName'
+        workspace_tag_id:
+          $ref: '#/components/schemas/WorkspaceTagId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
+        workspace_tag_name:
+          $ref: '#/components/schemas/WorkspaceTagName'
         created_datetime:
           $ref: '#/components/schemas/CreatedDateTime'
         updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
-    OrganizationTagMembers:
+    WorkspaceTagMembers:
       type: array
-      description: 組織タグが付いている組織メンバーの一覧
+      description: ワークスペースタグが付いているワークスペースメンバーの一覧
       items:
-        $ref: '#/components/schemas/OrganizationMember'
+        $ref: '#/components/schemas/WorkspaceMember'
     ExpectedWorkingTime:
       type: object
       properties:
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
-        organization_member_id:
-          $ref: '#/components/schemas/OrganizationMemberId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
+        workspace_member_id:
+          $ref: '#/components/schemas/WorkspaceMemberId'
         date:
           type: string
           format: date
@@ -342,8 +342,8 @@ components:
     Job:
       type: object
       properties:
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
         job_id:
           $ref: '#/components/schemas/JobId'
         job_name:
@@ -382,14 +382,14 @@ components:
     ActualWorkingTime:
       type: object
       properties:
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
         actual_working_time_id:
           $ref: '#/components/schemas/ActualWorkingTimeId'
         job_id:
           $ref: '#/components/schemas/JobId'
-        organization_member_id:
-          $ref: '#/components/schemas/OrganizationMemberId'
+        workspace_member_id:
+          $ref: '#/components/schemas/WorkspaceMemberId'
         start_datetime:
           description: 稼働開始日時
           type: string
@@ -407,13 +407,13 @@ components:
           $ref: '#/components/schemas/UpdatedDateTime'
     SumOfTimes:
       type: object
-      description: ジョブごとの実績時間、またはスケジュール時間の合計値を表すオブジェクトです。keyにはジョブID、valueのobjectには組織メンバーIDとその合計値が設定されます。
+      description: ジョブごとの実績時間、またはスケジュール時間の合計値を表すオブジェクトです。keyにはジョブID、valueのobjectにはワークスペースメンバーIDとその合計値が設定されます。
       example:
         - job_id_1:
-            organization_member_id_1: 10
-            organization_member_id_2: 3.5
+            workspace_member_id_1: 10
+            workspace_member_id_2: 3.5
         - job_id_2:
-            organization_member_id_1: 30
+            workspace_member_id_1: 30
       additionalProperties:
         type: object
         additionalProperties:
@@ -425,12 +425,12 @@ components:
       properties:
         schedule_id:
           $ref: '#/components/schemas/ScheduleId'
-        organization_id:
-          $ref: '#/components/schemas/OrganizationId'
+        workspace_id:
+          $ref: '#/components/schemas/WorkspaceId'
         job_id:
           $ref: '#/components/schemas/JobId'
-        organization_member_id:
-          $ref: '#/components/schemas/OrganizationMemberId'
+        workspace_member_id:
+          $ref: '#/components/schemas/WorkspaceMemberId'
         start_date:
           type: string
           format: date
@@ -449,7 +449,7 @@ components:
       type: object
       required:
         - job_id
-        - organization_member_id
+        - workspace_member_id
         - start_date
         - end_date
         - type
@@ -457,8 +457,8 @@ components:
       properties:
         job_id:
           $ref: '#/components/schemas/JobId'
-        organization_member_id:
-          $ref: '#/components/schemas/OrganizationMemberId'
+        workspace_member_id:
+          $ref: '#/components/schemas/WorkspaceMemberId'
         start_date:
           type: string
           format: date
@@ -592,20 +592,20 @@ components:
         last_updated_datetime:
           $ref: '#/components/schemas/UpdatedDateTime'
   parameters:
-    OrganizationId:
-      name: organization_id
+    WorkspaceId:
+      name: workspace_id
       in: path
-      description: 組織ID
+      description: ワークスペースID
       required: true
       schema:
-        $ref: '#/components/schemas/OrganizationId'
-    OrganizationTagId:
-      name: organization_tag_id
+        $ref: '#/components/schemas/WorkspaceId'
+    WorkspaceTagId:
+      name: workspace_tag_id
       in: path
-      description: 組織タグID
+      description: ワークスペースタグID
       required: true
       schema:
-        $ref: '#/components/schemas/OrganizationTagId'
+        $ref: '#/components/schemas/WorkspaceTagId'
     ActualWorkingTimeId:
       name: actual_working_time_id
       in: path
@@ -613,13 +613,13 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ActualWorkingTimeId'
-    OrganizationMemberId:
-      name: organization_member_id
+    WorkspaceMemberId:
+      name: workspace_member_id
       in: path
-      description: 組織メンバーID
+      description: ワークスペースメンバーID
       required: true
       schema:
-        $ref: '#/components/schemas/OrganizationMemberId'
+        $ref: '#/components/schemas/WorkspaceMemberId'
     UserId:
       name: user_id
       in: path
@@ -656,36 +656,36 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/LoginToken"
-    Organization:
-      description: 組織
+    Workspace:
+      description: ワークスペース
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Organization'
-    OrganizationTag:
-      description: 組織タグ
+            $ref: '#/components/schemas/Workspace'
+    WorkspaceTag:
+      description: ワークスペースタグ
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OrganizationTag'
-    OrganizationTagMembers:
-      description: 組織タグに紐付いている組織メンバーの一覧
+            $ref: '#/components/schemas/WorkspaceTag'
+    WorkspaceTagMembers:
+      description: ワークスペースタグに紐付いているワークスペースメンバーの一覧
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OrganizationTagMembers'
-    OrganizationMember:
-      description: 組織メンバー
+            $ref: '#/components/schemas/WorkspaceTagMembers'
+    WorkspaceMember:
+      description: ワークスペースメンバー
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OrganizationMember'
-    OrganizationMemberTags:
-      description: 組織メンバーのタグ一覧
+            $ref: '#/components/schemas/WorkspaceMember'
+    WorkspaceMemberTags:
+      description: ワークスペースメンバーのタグ一覧
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OrganizationMemberTags'
+            $ref: '#/components/schemas/WorkspaceMemberTags'
     ExpectedWorkingTime:
       description: 該当日の予定稼働時間
       content:

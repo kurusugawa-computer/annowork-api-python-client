@@ -6,7 +6,7 @@ from typing import Any, Dict, Generator, Tuple
 from annoworkapi.enums import ScheduleType
 
 _ExpectedWorkingHoursDict = Dict[Tuple[str, str], float]
-"""keyがtuple(date, organization_member_id), valueが予定稼働時間のdict
+"""keyがtuple(date, workspace_member_id), valueが予定稼働時間のdict
 """
 
 
@@ -28,13 +28,13 @@ def create_schedules_daily(
     Args:
         schedule: 作業計画情報
         expected_working_hours_dict: 予定稼働時間のdict.予定稼働時間の比率でアサインされている場合、予定稼働時間を参照します。
-            keyが(date,organization_member_id), valueが予定稼働時間
+            keyが(date,workspace_member_id), valueが予定稼働時間
 
     Returns:
         日ごとのアサイン時間情報のlist。１つの要素には以下のキーが格納されています。
         * date
         * job_id
-        * organization_member_id
+        * workspace_member_id
         * assigned_working_hours
 
     """
@@ -47,7 +47,7 @@ def create_schedules_daily(
                 {
                     "date": date,
                     "job_id": schedule["job_id"],
-                    "organization_member_id": schedule["organization_member_id"],
+                    "workspace_member_id": schedule["workspace_member_id"],
                     "assigned_working_hours": schedule["value"],
                 }
             )
@@ -55,7 +55,7 @@ def create_schedules_daily(
     elif schedule["type"] == ScheduleType.PERCENTAGE.value:
         # 予定稼働時間の比率からアサインされた時間を算出する。
         for date in _date_range(start_date, end_date):
-            expected_working_hours = expected_working_hours_dict.get((date, schedule["organization_member_id"]), 0)
+            expected_working_hours = expected_working_hours_dict.get((date, schedule["workspace_member_id"]), 0)
             assigned_working_hours = expected_working_hours * schedule["value"] * 0.01
             # アサイン時間が0の情報は不要なので、結果情報に格納しない
             if assigned_working_hours > 0:
@@ -63,7 +63,7 @@ def create_schedules_daily(
                     {
                         "date": date,
                         "job_id": schedule["job_id"],
-                        "organization_member_id": schedule["organization_member_id"],
+                        "workspace_member_id": schedule["workspace_member_id"],
                         "assigned_working_hours": assigned_working_hours,
                     }
                 )
