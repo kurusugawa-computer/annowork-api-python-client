@@ -91,10 +91,10 @@ class Wrapper:
         term_end_date: Optional[str] = None,
         tzinfo: Optional[datetime.tzinfo] = None,
     ) -> list[dict[str, Any]]:
-        """組織全体の実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
+        """ワークスペース全体の実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
         Args:
-            workspace_id (str):  組織ID (required)
+            workspace_id (str):  ワークスペースID (required)
             job_id (str):  ジョブIDで絞り込みます。
             term_start_date (str): 検索範囲の開始日（YYYY-MM-DD）
             term_end_date (str):  検索範囲の終了日（YYYY-MM-DD）
@@ -131,12 +131,12 @@ class Wrapper:
         term_end_date: Optional[str] = None,
         tzinfo: Optional[datetime.tzinfo] = None,
     ) -> Any:
-        """組織メンバーに対する実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
+        """ワークスペースメンバーに対する実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
 
         Args:
-            workspace_id (str):  組織ID (required)
-            workspace_member_id (str):  組織メンバーID (required)
+            workspace_id (str):  ワークスペースID (required)
+            workspace_member_id (str):  ワークスペースメンバーID (required)
             term_start_date (str): 検索範囲の開始日（YYYY-MM-DD）
             term_end_date (str):  検索範囲の終了日（YYYY-MM-DD）
             tzinfo: 日付を決めるためのタイムゾーン。未指定の場合はシステムのタイムゾーンを参照します。
@@ -182,7 +182,7 @@ class Wrapper:
             内部で `api.get_expected_working_times` を実行します。
 
         Args:
-            workspace_id: 組織ID
+            workspace_id: ワークスペースID
             term_start_date (str): 検索範囲の開始日（YYYY-MM-DD）
             term_end_date (str):  検索範囲の終了日（YYYY-MM-DD）
             job_id (str): 検索対象のジョブID
