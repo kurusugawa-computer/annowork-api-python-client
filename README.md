@@ -52,7 +52,7 @@ print(result)
 
 ```python
 import logging
-logging_formatter = '%(levelname)-8s : %(asctime)s : %(filename)s : %(name)s : %(funcName)s : %(message)s'
+logging_formatter = '%(levelname)-8s : %(asctime)s : %(name)s : %(message)s'
 logging.basicConfig(format=logging_formatter)
 logging.getLogger("annoworkapi").setLevel(level=logging.DEBUG)
 ```
