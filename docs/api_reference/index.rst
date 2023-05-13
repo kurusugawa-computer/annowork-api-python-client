@@ -10,5 +10,6 @@ API reference
    utils
    exceptions
    enums
+   annofab
 
 
