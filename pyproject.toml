@@ -16,13 +16,14 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = "^3.8"
+# Python3.8.1まで指定している理由: flake8 v6.0に合わせたため
+python = "^3.8.1"
 requests = "*"
 backoff="*"
 
 [tool.poetry.group.test.dependencies]
 # test library
-pytest = "*"
+pytest = "^7.3"
 pytest-xdist = "*"
 pytest-cov = "*"
 more-itertools = "*"
@@ -31,23 +32,21 @@ more-itertools = "*"
 # format library
 isort = "*"
 autoflake = "*"
-black = "*"
+black = "^23"
 
 
 [tool.poetry.group.linter.dependencies]
 # lint library
-flake8 = "*"
-mypy = "*"
-pylint = "*"
+flake8 = "^6"
+mypy = "^1"
+pylint = "^2.17"
 
 # type stub package
 types-requests = "*"
 
 [tool.poetry.group.documentation.dependencies]
-# sphinx = "^6"
-# pydata-sphinx-theme = ">=0.13.3"
-sphinx = "*"
-pydata-sphinx-theme = "*"
+sphinx = "^7"
+pydata-sphinx-theme = "^0.13.3"
 
 
 [tool.poetry.group.dev]
