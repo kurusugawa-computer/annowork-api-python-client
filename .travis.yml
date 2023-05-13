@@ -4,12 +4,13 @@ python:
   - "3.8"
   - "3.9"
   - "3.10"
-  - "3.11-dev"
+  - "3.11"
 
 install:
   - pip install pip --upgrade
-  - pip install "poetry<1.2"
-  - travis_retry poetry install
+  - pip install "poetry<1.5"
+  - travis_retry poetry install --only main,linter,test
+
 
 before_script:
   - export TZ=Asia/Tokyo
