@@ -1,6 +1,5 @@
 dist: focal
 language: python
-
 jobs:
   include:
     - name: Run test
@@ -16,22 +15,17 @@ jobs:
       script:
         # 最新バージョンではlintも実行する
         - make lint
-
 install:
   - pip install pip --upgrade
   - pip install "poetry<1.5"
   - travis_retry poetry install --only main,linter,test
-
-
 before_script:
   - export TZ=Asia/Tokyo
   - sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
   - echo "Asia/Tokyo" > sudo tee /etc/timezone  > /dev/null
-
 script:
-   - poetry run pytest tests/test_local_*.py
-
+  - poetry run pytest tests/test_local_*.py
 branches:
   only:
-  - main
+    - main
 cache: pip
