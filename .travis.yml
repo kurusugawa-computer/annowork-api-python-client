@@ -1,10 +1,21 @@
 dist: focal
 language: python
-python:
-  - "3.8"
-  - "3.9"
-  - "3.10"
-  - "3.11"
+
+jobs:
+  include:
+    - name: Run test
+      python: 3.8
+      script:
+        - poetry run pytest -n auto -m "not access_webapi"
+    - name: Run test
+      python: 3.9
+    - name: Run test
+      python: 3.10
+    - name: Run test and lint
+      python: 3.11
+      script:
+        # 最新バージョンではlintも実行する
+        - make lint
 
 install:
   - pip install pip --upgrade
@@ -16,9 +27,10 @@ before_script:
   - export TZ=Asia/Tokyo
   - sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
   - echo "Asia/Tokyo" > sudo tee /etc/timezone  > /dev/null
+
 script:
-   - make lint
    - poetry run pytest tests/test_local_*.py
+
 branches:
   only:
   - main
