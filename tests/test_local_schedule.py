@@ -5,7 +5,7 @@ from annoworkapi.schedule import create_schedules_daily
 SCHEDULE_LIST = [
     {
         "job_id": "JOB_A",
-        "organization_member_id": "alice",
+        "workspace_member_id": "alice",
         "start_date": "2021-11-01",
         "end_date": "2021-11-03",
         "type": "hours",
@@ -13,7 +13,7 @@ SCHEDULE_LIST = [
     },
     {
         "job_id": "JOB_A",
-        "organization_member_id": "bob",
+        "workspace_member_id": "bob",
         "start_date": "2021-11-01",
         "end_date": "2021-11-03",
         "type": "percentage",

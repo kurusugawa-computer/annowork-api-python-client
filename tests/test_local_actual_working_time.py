@@ -11,19 +11,19 @@ from annoworkapi.actual_working_time import (
 ACTUAL_WORKING_TIME_LIST = [
     {
         "job_id": "JOB_A",
-        "organization_member_id": "alice",
+        "workspace_member_id": "alice",
         "start_datetime": "2021-11-01T10:00:00.000Z",
         "end_datetime": "2021-11-01T11:00:00.000Z",
     },
     {
         "job_id": "JOB_B",
-        "organization_member_id": "alice",
+        "workspace_member_id": "alice",
         "start_datetime": "2021-11-01T12:00:00.000Z",
         "end_datetime": "2021-11-01T14:00:00.000Z",
     },
     {
         "job_id": "JOB_A",
-        "organization_member_id": "alice",
+        "workspace_member_id": "alice",
         "start_datetime": "2021-11-01T14:00:00.000Z",
         "end_datetime": "2021-11-01T18:00:00.000Z",
     },

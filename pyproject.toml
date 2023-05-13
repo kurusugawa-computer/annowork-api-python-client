@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "annoworkapi"
-version = "2.0.0"
+version = "3.0.1"
 description = "Python Clinet Library of AnnoWork WebAPI"
 authors = ["yuji38kwmt"]
 license = "MIT"
@@ -16,6 +16,7 @@ classifiers = [
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Utilities",
         "Operating System :: OS Independent",
 ]
@@ -36,7 +37,7 @@ more-itertools = "*"
 # format library
 isort = "*"
 autoflake = "*"
-black = {version = "^21.12b0", allow-prereleases = true}
+black = "*"
 
 # lint library
 flake8 = "*"

@@ -1,12 +1,14 @@
-dist: xenial
+dist: focal
 language: python
 python:
   - "3.8"
   - "3.9"
-  - "3.10-dev"
+  - "3.10"
+  - "3.11-dev"
 
 install:
-  - pip install poetry
+  - pip install pip --upgrade
+  - pip install "poetry<1.2"
   - travis_retry poetry install
 
 before_script:
