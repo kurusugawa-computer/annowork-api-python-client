@@ -1,8 +1,4 @@
-.PHONY: docs lint test format test publish
-
-init:
-	pip install poetry --upgrade
-	poetry install
+.PHONY: docs lint test format test
 
 format:
 	poetry run autoflake  --in-place --remove-all-unused-imports  --ignore-init-module-imports --recursive annoworkapi tests
@@ -16,9 +12,6 @@ lint:
 
 test:
 	poetry run pytest -n auto  --cov=annoworkapi --cov-report=html tests
-
-publish:
-	poetry publish --build
 
 docs:
 	cd docs && poetry run make html
