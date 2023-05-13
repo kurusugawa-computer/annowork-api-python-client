@@ -1,6 +1,7 @@
 """
 外部連携システム"Annofab"に依存した関数やクラスを定義しています。
 """
+from __future__ import annotations
 from collections import defaultdict
 from typing import Any, Collection, Optional
 
