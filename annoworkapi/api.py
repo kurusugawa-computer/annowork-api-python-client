@@ -246,7 +246,6 @@ class AnnoworkApi(AbstractAnnoworkApi):
     """
 
     def __init__(self, login_user_id: str, login_password: str, endpoint_url: str = DEFAULT_ENDPOINT_URL):
-
         if not login_user_id or not login_password:
             raise ValueError("login_user_id or login_password is empty.")
 

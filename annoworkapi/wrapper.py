@@ -239,12 +239,12 @@ class Wrapper:
                 continue
 
             result_list.append(
-                dict(
-                    date=date,
-                    workspace_member_id=tmp_workspace_member_id,
-                    job_id=tmp_job_id,
-                    assigned_working_hours=assigned_working_hours,
-                )
+                {
+                    "date": date,
+                    "workspace_member_id": tmp_workspace_member_id,
+                    "job_id": tmp_job_id,
+                    "assigned_working_hours": assigned_working_hours,
+                }
             )
 
         return result_list
