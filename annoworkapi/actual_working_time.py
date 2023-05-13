@@ -114,12 +114,12 @@ def create_actual_working_times_daily(
         # 実績作業時間が0の情報は不要なので、結果情報に格納しない
         if actual_working_hours > 0:
             results_list.append(
-                dict(
-                    date=str(date),
-                    workspace_member_id=workspace_member_id,
-                    job_id=job_id,
-                    actual_working_hours=actual_working_hours,
-                )
+                {
+                    "date": str(date),
+                    "workspace_member_id": workspace_member_id,
+                    "job_id": job_id,
+                    "actual_working_hours": actual_working_hours,
+                }
             )
 
     return results_list
