@@ -163,7 +163,7 @@ components:
         user_id:
           allOf:
             - $ref: '#/components/schemas/UserId'
-          description: ワークスペースにメンバーとして追加したいユーザーのID
+          description: ワークスペースにメンバーとして追加したいユーザーのID。ワークスペースにメンバーを追加または再加入させたい場合に指定します
         role:
           $ref: '#/components/schemas/Role'
         workspace_tags:
@@ -174,7 +174,7 @@ components:
         last_updated_datetime:
           allOf:
             - $ref: '#/components/schemas/UpdatedDateTime'
-          description: 対象のワークスペースメンバー情報の最終更新日（ワークスペースメンバー情報を更新する場合には必須項目)
+          description: 対象のワークスペースメンバー情報の最終更新日（ワークスペースメンバー情報を更新する、または再加入させる場合には必須項目)
     PutExpectedWorkingTimeRequest:
       type: object
       required:
