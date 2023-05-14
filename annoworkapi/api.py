@@ -240,8 +240,8 @@ class AnnoworkApi(AbstractAnnoworkApi):
     Web APIに対応したメソッドが存在するクラス。
 
     Args:
-        login_user_id: AnnoWorkにログインするときのユーザID
-        login_password: AnnoWorkにログインするときのパスワード
+        login_user_id: AnnoworkにログインするときのユーザID
+        login_password: Annoworkにログインするときのパスワード
         endpoint_url: WebAPI URLのbase部分
     """
 
