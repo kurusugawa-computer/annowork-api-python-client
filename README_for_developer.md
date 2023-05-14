@@ -6,8 +6,8 @@ VSCode devcontainerを使用します。
 
 ## requirement
 * ホスト側に以下の環境変数が設定されていること
-    * `ANNOWORK_USER_ID`：AnnoWorkにログインするときのユーザID
-    * `ANNOWORK_PASSWORD`：AnnoWorkにログインするときのパスワード
+    * `ANNOWORK_USER_ID`：AnnoworkにログインするときのユーザID
+    * `ANNOWORK_PASSWORD`：Annoworkにログインするときのパスワード
 
 
 
