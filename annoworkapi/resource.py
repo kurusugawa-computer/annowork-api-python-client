@@ -89,4 +89,4 @@ def build(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     except AnnoworkApiException:
         pass
 
-    raise AnnoworkApiException("`.netrc`ファイルまたは環境変数にAnnoWork認証情報はありませんでした。")
+    raise AnnoworkApiException("`.netrc`ファイルまたは環境変数にAnnowork認証情報はありませんでした。")

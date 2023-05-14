@@ -34,7 +34,7 @@ def _filter_actual_working_times_daily(
 
 class Wrapper:
     """
-    AnnoWorkApiのラッパー.
+    AnnoworkApiのラッパー.
 
     Args:
         api: AnnoworkApi Instance

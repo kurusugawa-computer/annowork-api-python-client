@@ -1,5 +1,5 @@
 # annowork-api-python-client
-AnnoWork WebAPIのPython用クライントライブラリです。
+Annowork WebAPIのPython用クライントライブラリです。
 
 [![Build Status](https://app.travis-ci.com/kurusugawa-computer/annowork-api-python-client.svg?branch=main)](https://app.travis-ci.com/kurusugawa-computer/annowork-api-python-client)
 [![PyPI version](https://badge.fury.io/py/annoworkapi.svg)](https://badge.fury.io/py/annoworkapi)

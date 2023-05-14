@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  title: AnnoWork Web API
+  title: Annowork Web API
   description: |
-    [AnnoWork](https://annowork.com) のWeb APIです。
+    [Annowork](https://annowork.com) のWeb APIです。
   version: 1.0.0
   termsOfService: 'https://annowork.com'
   contact:
-    name: AnnoWork
+    name: Annowork
 servers:
   - url: 'https://annowork.com/api/v1'
 tags:
@@ -1159,7 +1159,7 @@ paths:
       description: |
         アカウントのサインアップの最初のステップとして、アカウントを仮登録します。
 
-        AnnoWorkに未登録のメールアドレスであれば、新規アカウントが仮登録状態で作成され、本登録フローのためのメールが送信されます。
+        Annoworkに未登録のメールアドレスであれば、新規アカウントが仮登録状態で作成され、本登録フローのためのメールが送信されます。
         このメールには仮パスワードなどが記載されています。
 
         指定したメールアドレスを使うユーザーが仮登録であれば、本登録フローのメールが再送信されます。
