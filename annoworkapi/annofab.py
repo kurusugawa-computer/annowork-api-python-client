@@ -44,7 +44,7 @@ class AnnofabWrapper:
     def __init__(self, api: AnnoworkApi):
         self.api = api
 
-    def get_jobs_by_external_linkage_info_url(
+    def get_jobs_by_(
         self, workspace_id: str, annofab_project_ids: Collection[str]
     ) -> dict[str, list[dict[str, Any]]]:
         """
