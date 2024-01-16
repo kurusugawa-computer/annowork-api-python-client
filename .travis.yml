@@ -2,24 +2,14 @@ dist: focal
 language: python
 jobs:
   include:
-    - name: Run test
-      python: 3.8
-      script:
-        - poetry run pytest tests/test_local_*.py
-    - name: Run test
+    - python: 3.8
       python: 3.9
-      script:
-        - poetry run pytest tests/test_local_*.py
-    - name: Run test
       python: 3.10
       script:
-        - poetry run pytest tests/test_local_*.py
-    - name: Run test and lint
-      python: 3.11
-      script:
-        # 最新バージョンではlintも実行する
+        # 開発環境と同じPythonバージョンのときだけlintを実行する
         - make lint
-        - poetry run pytest tests/test_local_*.py
+    - python: 3.11
+    - python: 3.12
 
 install:
   - pip install pip --upgrade
@@ -30,6 +20,9 @@ before_script:
   - export TZ=Asia/Tokyo
   - sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
   - echo "Asia/Tokyo" > sudo tee /etc/timezone  > /dev/null
+
+script:
+   - poetry run pytest tests/test_local_*.py
 
 branches:
   only:
