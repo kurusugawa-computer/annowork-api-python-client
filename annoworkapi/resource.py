@@ -92,18 +92,3 @@ def build(*, login_user_id: Optional[str]=None, login_password: Optional[str]=No
     else:
         raise ValueError("引数`login_user_id`か`login_password`のどちらか一方がNoneです。両方Noneでないか、両方Noneである必要があります。")
 
-
-
-    # '.netrc'ファイルから認証情報を取得する
-    try:
-        return build_from_netrc(endpoint_url)
-    except AnnoworkApiException:
-        pass
-
-    # 環境変数から認証情報を取得する
-    try:
-        return build_from_env(endpoint_url)
-    except AnnoworkApiException:
-        pass
-
-    raise AnnoworkApiException("`.netrc`ファイルまたは環境変数にAnnowork認証情報はありませんでした。")
