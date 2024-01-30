@@ -1,10 +1,11 @@
 import logging
 import netrc
 import os
+from typing import Optional
 from urllib.parse import urlparse
 
 from annoworkapi.api import DEFAULT_ENDPOINT_URL, AnnoworkApi
-from annoworkapi.exceptions import AnnoworkApiException
+from annoworkapi.exceptions import AnnoworkApiException, CredentialsNotFoundError
 from annoworkapi.wrapper import Wrapper
 
 logger = logging.getLogger(__name__)
@@ -20,7 +21,7 @@ class Resource:
 
     """
 
-    def __init__(self, login_user_id: str, login_password: str, endpoint_url: str = DEFAULT_ENDPOINT_URL):
+    def __init__(self, login_user_id: str, login_password: str, *, endpoint_url: str = DEFAULT_ENDPOINT_URL):
         self.api = AnnoworkApi(login_user_id=login_user_id, login_password=login_password, endpoint_url=endpoint_url)
         self.wrapper = Wrapper(self.api)
 
@@ -29,7 +30,7 @@ class Resource:
         )
 
 
-def build_from_netrc(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
+def build_from_netrc(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     """
     ``.netrc`` ファイルから、Resourceインスタンスを生成する。
     """
@@ -41,18 +42,18 @@ def build_from_netrc(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     annowork_hostname = (urlparse(endpoint_url)).hostname
 
     if annowork_hostname not in netrc_hosts:
-        raise AnnoworkApiException(f"The `.netrc` file does not contain the machine name '{annowork_hostname}'")
+        raise CredentialsNotFoundError(f"`.netrc`ファイルの`machine`にAnnoworkのドメイン'{annowork_hostname}'が存在しません。")
 
     host = netrc_hosts[annowork_hostname]
     login_user_id = host[0]
     login_password = host[2]
     if login_user_id is None or login_password is None:
-        raise AnnoworkApiException("User ID or password in the .netrc file are None.")
+        raise CredentialsNotFoundError("`.netrc`ファイルに、AnnoworkのユーザーIDまたはパスワードが記載されていません。")
 
     return Resource(login_user_id, login_password, endpoint_url=endpoint_url)
 
 
-def build_from_env(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
+def build_from_env(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     """
     環境変数 ``ANNOWORK_USER_ID`` , ``ANNOWORK_PASSWORD`` から、Resourceインスタンスを生成する。
 
@@ -66,27 +67,32 @@ def build_from_env(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     login_user_id = os.environ.get("ANNOWORK_USER_ID")
     login_password = os.environ.get("ANNOWORK_PASSWORD")
     if login_user_id is None or login_password is None:
-        raise AnnoworkApiException("`ANNOWORK_USER_ID` or `ANNOWORK_PASSWORD`  environment variable are empty.")
+        raise CredentialsNotFoundError("環境変数`ANNOWORK_USER_ID`か`ANNOWORK_PASSWORD`のいずれかが空です。")
 
     return Resource(login_user_id, login_password, endpoint_url=endpoint_url)
 
 
-def build(endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
+def build(
+    *,
+    login_user_id: Optional[str] = None,
+    login_password: Optional[str] = None,
+    endpoint_url: str = DEFAULT_ENDPOINT_URL,
+) -> Resource:
     """
     ``.netrc`` ファイルまたは環境変数から認証情報を取得し、Resourceインスタンスを生成します。
     netrc, 環境変数の順に認証情報を読み込みます。
 
     """
-    # '.netrc'ファイルから認証情報を取得する
-    try:
-        return build_from_netrc(endpoint_url)
-    except AnnoworkApiException:
-        pass
+    if login_user_id is not None and login_password is not None:
+        return Resource(login_user_id, login_password, endpoint_url=endpoint_url)
 
-    # 環境変数から認証情報を取得する
-    try:
-        return build_from_env(endpoint_url)
-    except AnnoworkApiException:
-        pass
-
-    raise AnnoworkApiException("`.netrc`ファイルまたは環境変数にAnnowork認証情報はありませんでした。")
+    elif login_user_id is None and login_password is None:
+        try:
+            return build_from_env(endpoint_url=endpoint_url)
+        except CredentialsNotFoundError:
+            try:
+                return build_from_netrc(endpoint_url=endpoint_url)
+            except CredentialsNotFoundError as e:
+                raise CredentialsNotFoundError("環境変数または`.netrc`ファイルにAnnowork認証情報はありませんでした。") from e
+    else:
+        raise ValueError("引数`login_user_id`か`login_password`のどちらか一方がNoneです。両方Noneでないか、両方Noneである必要があります。")
