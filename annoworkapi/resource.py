@@ -91,7 +91,7 @@ def build(
             return build_from_env(endpoint_url=endpoint_url)
         except CredentialsNotFoundError:
             try:
-                return build_from_netrc(endpoint_url)
+                return build_from_netrc(endpoint_url=endpoint_url)
             except CredentialsNotFoundError as e:
                 raise CredentialsNotFoundError("環境変数または`.netrc`ファイルにAnnowork認証情報はありませんでした。") from e
     else:
