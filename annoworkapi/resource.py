@@ -1,7 +1,7 @@
-from typing import Optional
 import logging
 import netrc
 import os
+from typing import Optional
 from urllib.parse import urlparse
 
 from annoworkapi.api import DEFAULT_ENDPOINT_URL, AnnoworkApi
@@ -72,7 +72,12 @@ def build_from_env(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     return Resource(login_user_id, login_password, endpoint_url=endpoint_url)
 
 
-def build(*, login_user_id: Optional[str]=None, login_password: Optional[str]=None, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
+def build(
+    *,
+    login_user_id: Optional[str] = None,
+    login_password: Optional[str] = None,
+    endpoint_url: str = DEFAULT_ENDPOINT_URL,
+) -> Resource:
     """
     ``.netrc`` ファイルまたは環境変数から認証情報を取得し、Resourceインスタンスを生成します。
     netrc, 環境変数の順に認証情報を読み込みます。
@@ -83,7 +88,7 @@ def build(*, login_user_id: Optional[str]=None, login_password: Optional[str]=No
 
     elif login_user_id is None and login_password is None:
         try:
-            return build_from_env(endpoint_url)
+            return build_from_env(endpoint_url=endpoint_url)
         except CredentialsNotFoundError:
             try:
                 return build_from_netrc(endpoint_url)
@@ -91,4 +96,3 @@ def build(*, login_user_id: Optional[str]=None, login_password: Optional[str]=No
                 raise CredentialsNotFoundError("環境変数または`.netrc`ファイルにAnnowork認証情報はありませんでした。") from e
     else:
         raise ValueError("引数`login_user_id`か`login_password`のどちらか一方がNoneです。両方Noneでないか、両方Noneである必要があります。")
-

@@ -4,8 +4,6 @@ class AnnoworkApiException(Exception):
     """
 
 
-
-
 class CredentialsNotFoundError(AnnoworkApiException):
     """
     Annoworkの認証情報が見つからないときのエラー
