@@ -7,7 +7,7 @@ AbstractAnnoworkApiのヘッダ部分
 Note:
     このファイルはopenapi-generatorで自動生成される。詳細は generate/README.mdを参照
 """
-from __future__ import annotations
+
 import abc
 import annoworkapi  # pylint: disable=unused-import
 import warnings  # pylint: disable=unused-import
