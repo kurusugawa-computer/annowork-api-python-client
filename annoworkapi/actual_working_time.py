@@ -1,7 +1,7 @@
 """
 実績作業時間に関するutil関数を定義しています。
 """
-from __future__ import annotations
+
 
 import datetime
 from collections import defaultdict

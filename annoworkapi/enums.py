@@ -9,7 +9,6 @@ enumならば列挙体として定義する。
 Note:
     このファイルはopenapi-generatorで自動生成される。
 """
-from __future__ import annotations
 
 import warnings  # pylint: disable=unused-import
 from enum import Enum
