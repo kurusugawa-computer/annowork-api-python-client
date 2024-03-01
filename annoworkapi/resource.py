@@ -5,7 +5,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 from annoworkapi.api import DEFAULT_ENDPOINT_URL, AnnoworkApi
-from annoworkapi.exceptions import AnnoworkApiException, CredentialsNotFoundError
+from annoworkapi.exceptions import CredentialsNotFoundError
 from annoworkapi.wrapper import Wrapper
 
 logger = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ def build_from_netrc(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     try:
         netrc_hosts = netrc.netrc().hosts
     except FileNotFoundError as e:
-        raise AnnoworkApiException(e) from e
+        raise CredentialsNotFoundError("`.netrc`ファイルが存在しません。") from e
 
     annowork_hostname = (urlparse(endpoint_url)).hostname
 
