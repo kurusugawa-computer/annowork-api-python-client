@@ -37,7 +37,7 @@ def build_from_netrc(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
     try:
         netrc_hosts = netrc.netrc().hosts
     except FileNotFoundError as e:
-        raise AnnoworkApiException(e) from e
+        raise CredentialsNotFoundError(f"`.netrc`ファイルが存在しません。") from e
 
     annowork_hostname = (urlparse(endpoint_url)).hostname
 
