@@ -5,7 +5,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 from annoworkapi.api import DEFAULT_ENDPOINT_URL, AnnoworkApi
-from annoworkapi.exceptions import AnnoworkApiException, CredentialsNotFoundError
+from annoworkapi.exceptions import CredentialsNotFoundError
 from annoworkapi.wrapper import Wrapper
 
 logger = logging.getLogger(__name__)
