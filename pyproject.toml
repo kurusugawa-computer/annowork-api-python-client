@@ -22,7 +22,7 @@ backoff="*"
 
 [tool.poetry.group.test.dependencies]
 # test library
-pytest = "^7.3"
+pytest = ">=7.3,<9.0"
 pytest-xdist = "*"
 pytest-cov = "*"
 more-itertools = "*"
