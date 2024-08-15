@@ -27,10 +27,6 @@ pytest-xdist = "*"
 pytest-cov = "*"
 more-itertools = "*"
 
-[tool.poetry.group.formatter.dependencies]
-# format library
-
-
 [tool.poetry.group.linter.dependencies]
 # lint library
 # pythonバージョンを指定している理由：lintは開発環境と同じPythonバージョンで実行するため。また古いPythonバージョンにサポートしていないライブラリのバージョンがあるため
@@ -130,8 +126,10 @@ select = [
 convention = "google"
 
 [tool.ruff.lint.pyupgrade]
-# Python3.8をサポートしているため、`typing.List`などの型ヒントは警告しないようにする
+# 以下のエラーが発生しないようにする。
+# FA100 Add `from __future__ import annotations` to simplify `typing.Optional`
 # https://beta.ruff.rs/docs/settings/#keep-runtime-typing
+# Python 3.9をサポートしなくなったら、この設定は不要になる
 keep-runtime-typing = true
 
 [tool.ruff.lint.pylint]
@@ -140,10 +138,9 @@ max-args = 10
 
 [tool.poetry-dynamic-versioning]
 enable = true
-format = "{base}"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"
 
