@@ -190,9 +190,9 @@ def my_backoff(function):  # noqa: ANN001
     return wrapped
 
 
-def _create_request_body_for_logger(data: Any) -> Any:
+def _create_request_body_for_logger(data: Any) -> Any:  # noqa: ANN401
     """
-    ログに出力するためのreqest_bodyを生成する。
+    ログに出力するためのrequest_bodyを生成する。
      * パスワードやトークンなどの機密情報をマスクする
      * bytes型の場合は `(bytes)`と記載する。
 
@@ -272,7 +272,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         self,
         params: Optional[dict[str, Any]] = None,
         headers: Optional[dict[str, Any]] = None,
-        request_body: Optional[Any] = None,
+        request_body: Optional[Any] = None,  # noqa: ANN401
     ) -> dict[str, Any]:
         """
         requestsモジュールのget,...メソッドに渡すkwargsを生成する。
@@ -315,7 +315,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         return kwargs
 
     @staticmethod
-    def _response_to_content(response: requests.Response) -> Any:
+    def _response_to_content(response: requests.Response) -> Any:  # noqa: ANN401
         """
         Responseのcontentを、Content-Typeに対応した型に変換する。
 
@@ -350,8 +350,8 @@ class AnnoworkApi(AbstractAnnoworkApi):
         url: str,
         *,
         params: Optional[dict[str, Any]] = None,
-        data: Optional[Any] = None,
-        json: Optional[Any] = None,  # pylint: disable=redefined-outer-name
+        data: Optional[Any] = None,  # noqa: ANN401
+        json: Optional[Any] = None,  # pylint: disable=redefined-outer-name, # noqa: ANN401
         headers: Optional[dict[str, Any]] = None,
         **kwargs,
     ) -> requests.Response:
@@ -401,9 +401,9 @@ class AnnoworkApi(AbstractAnnoworkApi):
         *,
         query_params: Optional[dict[str, Any]] = None,
         header_params: Optional[dict[str, Any]] = None,
-        request_body: Optional[Any] = None,
+        request_body: Optional[Any] = None,  # noqa: ANN401
         log_response_with_error: bool = True,
-    ) -> Any:
+    ) -> Any:  # noqa: ANN401
         """
         HTTP Requestを投げて、Responseを返す。
 

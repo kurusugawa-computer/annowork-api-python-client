@@ -13,7 +13,9 @@ from annoworkapi.schedule import _ExpectedWorkingHoursDict, create_schedules_dai
 logger = logging.getLogger(__name__)
 
 
-def _filter_actual_working_times_daily(actual_daily_list: list[dict[str, Any]], term_start_date: Optional[str], term_end_date: Optional[str]):
+def _filter_actual_working_times_daily(
+    actual_daily_list: list[dict[str, Any]], term_start_date: Optional[str], term_end_date: Optional[str]
+) -> list[dict[str, Any]]:
     if term_start_date is None and term_end_date is None:
         return actual_daily_list
 
@@ -122,7 +124,7 @@ class Wrapper:
         term_start_date: Optional[str] = None,
         term_end_date: Optional[str] = None,
         tzinfo: Optional[datetime.tzinfo] = None,
-    ) -> Any:
+    ) -> list[dict[str, Any]]:
         """ワークスペースメンバーに対する実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
 
