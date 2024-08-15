@@ -88,9 +88,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
         )
 
 
-def ignore_http_error(
-    func=None, /, *, status_code_list: list[int], logger: Optional[Logger] = None
-):  # pylint: disable=redefined-outer-name
+def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name
     """
     HTTPErrorが発生したとき、特定のstatus codeを無視して、処理する。
     無視した場合、Noneを返す。
@@ -370,9 +368,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
             requests.exceptions.HTTPError: http status codeが4XXX,5XXXのとき
 
         """
-        response = self.session.request(
-            method=http_method, url=url, params=params, data=data, headers=headers, json=json, **kwargs
-        )
+        response = self.session.request(method=http_method, url=url, params=params, data=data, headers=headers, json=json, **kwargs)
 
         # response.requestよりメソッド引数のrequest情報の方が分かりやすいので、メソッド引数のrequest情報を出力する。
         logger.debug(

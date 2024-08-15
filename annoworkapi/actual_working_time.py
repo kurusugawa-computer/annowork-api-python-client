@@ -69,9 +69,7 @@ def _create_actual_working_hours_dict(actual: dict[str, Any], tzinfo: datetime.t
         # 実績作業時間が24時間を超えることはないが、24時間を超えても計算できるような処理にする
         while dt_tmp_local_start_datetime.date() < dt_local_end_datetime.date():
             dt_next_date = dt_tmp_local_start_datetime.date() + datetime.timedelta(days=1)
-            dt_tmp_local_end_datetime = datetime.datetime(
-                year=dt_next_date.year, month=dt_next_date.month, day=dt_next_date.day, tzinfo=tzinfo
-            )
+            dt_tmp_local_end_datetime = datetime.datetime(year=dt_next_date.year, month=dt_next_date.month, day=dt_next_date.day, tzinfo=tzinfo)
             actual_working_hours = (dt_tmp_local_end_datetime - dt_tmp_local_start_datetime).total_seconds() / 3600
             results_dict[(dt_tmp_local_start_datetime.date(), workspace_member_id, job_id)] = actual_working_hours
             dt_tmp_local_start_datetime = dt_tmp_local_end_datetime
@@ -82,9 +80,7 @@ def _create_actual_working_hours_dict(actual: dict[str, Any], tzinfo: datetime.t
     return results_dict
 
 
-def create_actual_working_times_daily(
-    actual_working_times: list[dict[str, Any]], tzinfo: Optional[datetime.tzinfo] = None
-) -> list[dict[str, Any]]:
+def create_actual_working_times_daily(actual_working_times: list[dict[str, Any]], tzinfo: Optional[datetime.tzinfo] = None) -> list[dict[str, Any]]:
     """`getActualWorkingTimes` APIなどで取得した実績時間のlistから、日付、ジョブ、メンバ単位で集計した実績時間を生成します。
 
     Args:

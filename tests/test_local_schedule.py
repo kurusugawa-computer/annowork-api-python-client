@@ -33,17 +33,13 @@ class Test_create_schedules_daily:
         actual = create_schedules_daily(SCHEDULE_LIST[0], {})
         assert len(actual) == 3
 
-        assert (
-            more_itertools.first_true(actual, pred=lambda e: e["date"] == "2021-11-01")["assigned_working_hours"] == 8.0
-        )
+        assert more_itertools.first_true(actual, pred=lambda e: e["date"] == "2021-11-01")["assigned_working_hours"] == 8.0
         assert sum(e["assigned_working_hours"] for e in actual) == 8 * 3
 
     def test_with_type_percentage(self):
         actual = create_schedules_daily(SCHEDULE_LIST[1], EXPECTED_WORKING_HOURS_DICT)
         assert len(actual) == 2
-        assert (
-            more_itertools.first_true(actual, pred=lambda e: e["date"] == "2021-11-01")["assigned_working_hours"] == 4.0
-        )
+        assert more_itertools.first_true(actual, pred=lambda e: e["date"] == "2021-11-01")["assigned_working_hours"] == 4.0
         assert sum(e["assigned_working_hours"] for e in actual) == 8 * 0.5 + 6 * 0.5
 
     def test_with_type_percentage2(self):

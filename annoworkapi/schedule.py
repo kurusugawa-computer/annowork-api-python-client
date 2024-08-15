@@ -1,5 +1,6 @@
 import datetime
-from typing import Any, Dict, Generator, Tuple
+from collections.abc import Generator
+from typing import Any, Dict, Tuple
 
 from annoworkapi.enums import ScheduleType
 
@@ -18,9 +19,7 @@ def _date_range(start_date: str, end_date: str) -> Generator[str, None, None]:
         dt_date += datetime.timedelta(days=1)
 
 
-def create_schedules_daily(
-    schedule: dict[str, Any], expected_working_hours_dict: _ExpectedWorkingHoursDict
-) -> list[dict[str, Any]]:
+def create_schedules_daily(schedule: dict[str, Any], expected_working_hours_dict: _ExpectedWorkingHoursDict) -> list[dict[str, Any]]:
     """作業計画情報から、日ごとのアサイン時間が格納されたlistを生成します。
 
     Args:

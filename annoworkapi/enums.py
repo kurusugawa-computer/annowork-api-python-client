@@ -10,9 +10,7 @@ Note:
     このファイルはopenapi-generatorで自動生成される。
 """
 
-import warnings  # pylint: disable=unused-import
 from enum import Enum
-from typing import Any, NewType, Optional, Union  # pylint: disable=unused-import
 
 
 class Authority(Enum):
