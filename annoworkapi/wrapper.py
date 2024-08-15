@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def _filter_actual_working_times_daily(
     actual_daily_list: list[dict[str, Any]], term_start_date: Optional[str], term_end_date: Optional[str]
-):
+) -> list[dict[str, Any]]:
     if term_start_date is None and term_end_date is None:
         return actual_daily_list
 
@@ -38,7 +38,7 @@ class Wrapper:
         api: AnnoworkApi Instance
     """
 
-    def __init__(self, api: AnnoworkApi):
+    def __init__(self, api: AnnoworkApi) -> None:
         self.api = api
 
     ###################################################################################################################
@@ -106,9 +106,7 @@ class Wrapper:
             * actual_working_hours
 
         """
-        term_start, term_end = get_term_start_end_from_date_for_actual_working_time(
-            term_start_date, term_end_date, tzinfo=tzinfo
-        )
+        term_start, term_end = get_term_start_end_from_date_for_actual_working_time(term_start_date, term_end_date, tzinfo=tzinfo)
         query_params = {
             "job_id": job_id,
             "term_start": term_start,
@@ -116,9 +114,7 @@ class Wrapper:
         }
         tmp = self.api.get_actual_working_times(workspace_id, query_params=query_params)
         daily_list = create_actual_working_times_daily(tmp, tzinfo=tzinfo)
-        return _filter_actual_working_times_daily(
-            daily_list, term_start_date=term_start_date, term_end_date=term_end_date
-        )
+        return _filter_actual_working_times_daily(daily_list, term_start_date=term_start_date, term_end_date=term_end_date)
 
     def get_actual_working_times_by_workspace_member_daily(
         self,
@@ -128,7 +124,7 @@ class Wrapper:
         term_start_date: Optional[str] = None,
         term_end_date: Optional[str] = None,
         tzinfo: Optional[datetime.tzinfo] = None,
-    ) -> Any:
+    ) -> list[dict[str, Any]]:
         """ワークスペースメンバーに対する実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
 
@@ -147,20 +143,14 @@ class Wrapper:
             * actual_working_hours
 
         """
-        term_start, term_end = get_term_start_end_from_date_for_actual_working_time(
-            term_start_date, term_end_date, tzinfo=tzinfo
-        )
+        term_start, term_end = get_term_start_end_from_date_for_actual_working_time(term_start_date, term_end_date, tzinfo=tzinfo)
         query_params = {
             "term_start": term_start,
             "term_end": term_end,
         }
-        tmp = self.api.get_actual_working_times_by_workspace_member(
-            workspace_id, workspace_member_id, query_params=query_params
-        )
+        tmp = self.api.get_actual_working_times_by_workspace_member(workspace_id, workspace_member_id, query_params=query_params)
         daily_list = create_actual_working_times_daily(tmp, tzinfo=tzinfo)
-        return _filter_actual_working_times_daily(
-            daily_list, term_start_date=term_start_date, term_end_date=term_end_date
-        )
+        return _filter_actual_working_times_daily(daily_list, term_start_date=term_start_date, term_end_date=term_end_date)
 
     ###################################################################################################################
     # schedule
@@ -201,21 +191,15 @@ class Wrapper:
                 max_date = max(max_date, schedule["end_date"])
             return min_date, max_date
 
-        schedule_list = self.api.get_schedules(
-            workspace_id, query_params={"job_id": job_id, "term_start": term_start, "term_end": term_end}
-        )
+        schedule_list = self.api.get_schedules(workspace_id, query_params={"job_id": job_id, "term_start": term_start, "term_end": term_end})
 
         if len(schedule_list) == 0:
             return []
 
         min_date, max_date = _get_min_max_date(schedule_list)
-        expected_working_times = self.api.get_expected_working_times(
-            workspace_id, query_params={"term_start": min_date, "term_end": max_date}
-        )
+        expected_working_times = self.api.get_expected_working_times(workspace_id, query_params={"term_start": min_date, "term_end": max_date})
         expected_working_hours_dict: _ExpectedWorkingHoursDict = {
-            (e["date"], e["workspace_member_id"]): e["expected_working_hours"]
-            for e in expected_working_times
-            if e["expected_working_hours"] > 0
+            (e["date"], e["workspace_member_id"]): e["expected_working_hours"] for e in expected_working_times if e["expected_working_hours"] > 0
         }
 
         result_dict: dict[tuple[str, str, str], float] = defaultdict(float)

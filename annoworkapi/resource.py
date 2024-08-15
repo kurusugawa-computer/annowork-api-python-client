@@ -21,13 +21,11 @@ class Resource:
 
     """
 
-    def __init__(self, login_user_id: str, login_password: str, *, endpoint_url: str = DEFAULT_ENDPOINT_URL):
+    def __init__(self, login_user_id: str, login_password: str, *, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> None:
         self.api = AnnoworkApi(login_user_id=login_user_id, login_password=login_password, endpoint_url=endpoint_url)
         self.wrapper = Wrapper(self.api)
 
-        logger.debug(
-            "Create annoworkapi resource instance :: %s", {"login_user_id": login_user_id, "endpoint_url": endpoint_url}
-        )
+        logger.debug("Create annoworkapi resource instance :: %s", {"login_user_id": login_user_id, "endpoint_url": endpoint_url})
 
 
 def build_from_netrc(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:

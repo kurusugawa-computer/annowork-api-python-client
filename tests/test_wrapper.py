@@ -17,13 +17,12 @@ class TestActualWorkingTime:
     jtc_tzinfo = datetime.timezone(datetime.timedelta(hours=9))
 
     def test_get_actual_working_times_daily(self):
-        tmp = service.wrapper.get_actual_working_times_daily(
+        service.wrapper.get_actual_working_times_daily(
             workspace_id, term_start_date="2021-11-15", term_end_date="2021-11-15", tzinfo=self.jtc_tzinfo
         )
 
     def test_get_actual_working_times_by_workspace_member_daily(self):
-        print(f"{workspace_id=}")
-        tmp = service.wrapper.get_actual_working_times_by_workspace_member_daily(
+        service.wrapper.get_actual_working_times_by_workspace_member_daily(
             workspace_id,
             "c566151e-f8bb-4f73-9c78-af40da1814ef",
             term_start_date="2021-11-15",
@@ -34,7 +33,7 @@ class TestActualWorkingTime:
 
 class TestSchedule:
     def test_get_schedules_daily(self):
-        tmp = service.wrapper.get_schedules_daily(
+        service.wrapper.get_schedules_daily(
             workspace_id,
             term_start="2021-11-15",
             term_end="2021-11-15",

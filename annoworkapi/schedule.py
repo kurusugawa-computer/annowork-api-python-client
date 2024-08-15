@@ -1,9 +1,10 @@
 import datetime
-from typing import Any, Dict, Generator, Tuple
+from collections.abc import Generator
+from typing import Any
 
 from annoworkapi.enums import ScheduleType
 
-_ExpectedWorkingHoursDict = Dict[Tuple[str, str], float]
+_ExpectedWorkingHoursDict = dict[tuple[str, str], float]
 """keyがtuple(date, workspace_member_id), valueが予定稼働時間のdict
 """
 
@@ -18,9 +19,7 @@ def _date_range(start_date: str, end_date: str) -> Generator[str, None, None]:
         dt_date += datetime.timedelta(days=1)
 
 
-def create_schedules_daily(
-    schedule: dict[str, Any], expected_working_hours_dict: _ExpectedWorkingHoursDict
-) -> list[dict[str, Any]]:
+def create_schedules_daily(schedule: dict[str, Any], expected_working_hours_dict: _ExpectedWorkingHoursDict) -> list[dict[str, Any]]:
     """作業計画情報から、日ごとのアサイン時間が格納されたlistを生成します。
 
     Args:
@@ -41,7 +40,7 @@ def create_schedules_daily(
     result = []
     if schedule["type"] == ScheduleType.HOURS.value:
         for date in _date_range(start_date, end_date):
-            result.append(
+            result.append(  # noqa: PERF401
                 {
                     "date": date,
                     "job_id": schedule["job_id"],
