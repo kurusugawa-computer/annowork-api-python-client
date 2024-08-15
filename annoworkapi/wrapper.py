@@ -36,7 +36,7 @@ class Wrapper:
         api: AnnoworkApi Instance
     """
 
-    def __init__(self, api: AnnoworkApi):
+    def __init__(self, api: AnnoworkApi) -> None:
         self.api = api
 
     ###################################################################################################################

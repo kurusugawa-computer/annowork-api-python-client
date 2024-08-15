@@ -241,7 +241,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         endpoint_url: WebAPI URLのbase部分
     """
 
-    def __init__(self, login_user_id: str, login_password: str, *, endpoint_url: str = DEFAULT_ENDPOINT_URL):
+    def __init__(self, login_user_id: str, login_password: str, *, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> None:
         if not login_user_id or not login_password:
             raise ValueError("login_user_id or login_password is empty.")
 
@@ -258,10 +258,10 @@ class AnnoworkApi(AbstractAnnoworkApi):
         http://docs.python-requests.org/en/master/user/advanced/#custom-authentication
         """
 
-        def __init__(self, id_token: str):
+        def __init__(self, id_token: str) -> None:
             self.id_token = id_token
 
-        def __call__(self, req):
+        def __call__(self, req):  # noqa: ANN204
             req.headers["Authorization"] = self.id_token
             return req
 

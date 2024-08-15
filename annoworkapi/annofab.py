@@ -41,7 +41,7 @@ class AnnofabWrapper:
         api: AnnoworkApi Instance
     """
 
-    def __init__(self, api: AnnoworkApi):
+    def __init__(self, api: AnnoworkApi) -> None:
         self.api = api
 
     def get_jobs_by_annofab_project_id(self, workspace_id: str, annofab_project_ids: Collection[str]) -> dict[str, list[dict[str, Any]]]:
