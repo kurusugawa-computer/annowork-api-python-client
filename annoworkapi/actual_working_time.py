@@ -8,7 +8,7 @@ from typing import Any, Dict, Optional, Tuple
 
 from annoworkapi.utils import datetime_to_str, str_to_datetime
 
-_ActualWorkingHoursDict = Dict[Tuple[datetime.date, str, str], float]
+_ActualWorkingHoursDict = dict[tuple[datetime.date, str, str], float]
 """実績作業時間の日ごとの情報を格納する辞書
 key: (date, workspace_member_id, job_id), value: 実績作業時間
 """

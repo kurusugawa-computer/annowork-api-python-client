@@ -4,7 +4,7 @@ from typing import Any, Dict, Tuple
 
 from annoworkapi.enums import ScheduleType
 
-_ExpectedWorkingHoursDict = Dict[Tuple[str, str], float]
+_ExpectedWorkingHoursDict = dict[tuple[str, str], float]
 """keyがtuple(date, workspace_member_id), valueが予定稼働時間のdict
 """
 
@@ -40,7 +40,7 @@ def create_schedules_daily(schedule: dict[str, Any], expected_working_hours_dict
     result = []
     if schedule["type"] == ScheduleType.HOURS.value:
         for date in _date_range(start_date, end_date):
-            result.append(
+            result.append(  # noqa: PERF401
                 {
                     "date": date,
                     "job_id": schedule["job_id"],
