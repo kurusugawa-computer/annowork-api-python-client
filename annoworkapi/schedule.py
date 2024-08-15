@@ -1,6 +1,6 @@
 import datetime
 from collections.abc import Generator
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from annoworkapi.enums import ScheduleType
 

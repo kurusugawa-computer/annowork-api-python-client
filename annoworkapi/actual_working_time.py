@@ -4,7 +4,7 @@
 
 import datetime
 from collections import defaultdict
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from annoworkapi.utils import datetime_to_str, str_to_datetime
 
