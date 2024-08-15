@@ -2,7 +2,6 @@
 実績作業時間に関するutil関数を定義しています。
 """
 
-
 import datetime
 from collections import defaultdict
 from typing import Any, Dict, Optional, Tuple

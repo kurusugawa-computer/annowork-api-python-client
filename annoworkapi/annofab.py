@@ -2,7 +2,6 @@
 外部連携システム"Annofab"に依存した関数やクラスを定義しています。
 """
 
-
 from collections import defaultdict
 from collections.abc import Collection
 from typing import Any, Optional
