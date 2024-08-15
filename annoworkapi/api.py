@@ -49,7 +49,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
 
     """
 
-    def mask_key(d, key: str):
+    def mask_key(d, key: str):  # noqa: ANN001
         if key in d:
             d[key] = "***"
 
@@ -88,7 +88,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
         )
 
 
-def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name
+def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
     """
     HTTPErrorが発生したとき、特定のstatus codeを無視して、処理する。
     無視した場合、Noneを返す。
@@ -99,7 +99,7 @@ def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Opti
     """
     new_logger = logging.getLogger(__name__) if logger is None else logger
 
-    def decorator(function):
+    def decorator(function):  # noqa: ANN001
         @functools.wraps(function)
         def wrapped(*args, **kwargs):
             try:
@@ -122,13 +122,13 @@ def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Opti
     return decorator(func)
 
 
-def allow_404_error(func=None, /, *, logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name
+def allow_404_error(func=None, /, *, logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
     """
     Not Found Error(404)を無視(許容)して、処理するデコレータ。Not Found Errorが発生したときはNoneを返す。
     リソースの存在確認などに利用する。
     """
 
-    def wrap(func):
+    def wrap(func):  # noqa: ANN001
         return ignore_http_error(func, status_code_list=[requests.codes.not_found], logger=logger)
 
     if func is None:
@@ -137,14 +137,14 @@ def allow_404_error(func=None, /, *, logger: Optional[Logger] = None):  # pylint
     return wrap(func)
 
 
-def my_backoff(function):
+def my_backoff(function):  # noqa: ANN001
     """
     リトライが必要な場合はリトライする
     """
 
     @functools.wraps(function)
     def wrapped(*args, **kwargs):
-        def fatal_code(e):
+        def fatal_code(e: Exception):
             """
             リトライするかどうか
             status codeが5xxのときまたはToo many Requests(429)のときはリトライする。
@@ -204,7 +204,7 @@ def _create_request_body_for_logger(data: Any) -> Any:
         ログ出力用のrequest_body
     """
 
-    def mask_key(d, key: str):
+    def mask_key(d, key: str):  # noqa: ANN001
         if key in d:
             d[key] = "***"
 
@@ -261,7 +261,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         def __init__(self, id_token: str) -> None:
             self.id_token = id_token
 
-        def __call__(self, req):  # noqa: ANN204
+        def __call__(self, req):  # noqa: ANN204,ANN001
             req.headers["Authorization"] = self.id_token
             return req
 
