@@ -112,6 +112,20 @@ select = [
     "ALL"
 ]
 
+[tool.ruff.lint.per-file-ignores]
+# テストコードはチェックを緩和する
+"tests/**.py" = [
+    "PGH",  # pygrep-hooks
+    "DTZ",  # flake8-datetimez
+    "ANN",  # flake8-annotations
+    "E501",  # line-too-long
+    "RUF100",  # unused-noqa
+    "G004", # logging-f-string
+    "SIM", #flake8-simplify
+    "PLC2401", # non-ascii-name, メソッド名に日本語を利用するため
+]
+
+
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
