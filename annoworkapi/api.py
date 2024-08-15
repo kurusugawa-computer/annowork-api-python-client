@@ -183,7 +183,7 @@ def my_backoff(function):
             max_time=300,
             giveup=fatal_code,
             logger=logger,
-            # giveup時のレベルがデフォルトのERRORだと、`wrapper.get_job_or_none` などを実行したときに不要なログが出力されるため、ログレベルをDEBUG以下に下げておく
+            # giveup時のレベルがデフォルトのERRORだと、`wrapper.get_job_or_none` などを実行したときに不要なログが出力されるため、ログレベルをDEBUG以下に下げておく  # noqa: E501
             giveup_log_level=logging.NOTSET,
         )(function)(*args, **kwargs)
 
