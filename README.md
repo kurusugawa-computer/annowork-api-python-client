@@ -9,7 +9,7 @@ Annowork WebAPIのPython用クライントライブラリです。
 
 
 # Requirements
-* Python 3.8+ 
+* Python 3.9+ 
 
 # Install
 
