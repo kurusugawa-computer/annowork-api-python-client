@@ -39,7 +39,7 @@ types-requests = "*"
 
 [tool.poetry.group.documentation.dependencies]
 sphinx = {version="^8", python = ">=3.11"}
-pydata-sphinx-theme = {version="^0.15", python = ">=3.11"}
+pydata-sphinx-theme = {version=">=0.15,<0.17", python = ">=3.11"}
 
 
 [tool.poetry.group.dev]
