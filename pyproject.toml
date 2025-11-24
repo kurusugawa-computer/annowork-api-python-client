@@ -16,7 +16,7 @@ classifiers = [
 
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 requests = "*"
 backoff="*"
 
@@ -56,7 +56,7 @@ check_untyped_defs = true
 
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 150
 
 [tool.ruff.lint]
@@ -73,6 +73,8 @@ ignore = [
     "PERF203", # try-except-in-loop: ループ内でtry-exceptを使うこともあるため無視する。またPython3.11以降は無視できる
     "FIX", # TODOやFIXMEを使うため無視する
     "TD", # TODOコメントの書き方に気にしていないので無視する
+    "UP007", # Use X | Y for type annotations: keep-runtime-typing = trueを使用しているため無視する
+    "UP038", # Use X | Y in isinstance call: 既存のコードスタイルを維持するため無視する
 
     # いずれ無視しないようにする
     "ANN201", # missing-return-type-public-function:
@@ -127,7 +129,6 @@ convention = "google"
 # 以下のエラーが発生しないようにする。
 # FA100 Add `from __future__ import annotations` to simplify `typing.Optional`
 # https://beta.ruff.rs/docs/settings/#keep-runtime-typing
-# Python 3.9をサポートしなくなったら、この設定は不要になる
 keep-runtime-typing = true
 
 [tool.ruff.lint.pylint]
