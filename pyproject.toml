@@ -3,7 +3,7 @@ name = "annoworkapi"
 dynamic = ["version"]
 description = "Python Client Library of Annowork WebAPI"
 authors = [{ name = "Kurusugawa Computer Inc." }]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.12,<4"
 license = "MIT"
 keywords = ["annowork", "api"]
 readme = "README.md"
@@ -12,6 +12,10 @@ classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Utilities",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
 ]
 dependencies = ["requests", "backoff"]
 
@@ -21,14 +25,14 @@ Repository = "https://github.com/kurusugawa-computer/annowork-api-python-client"
 [dependency-groups]
 test = ["pytest>=8,<9", "pytest-xdist", "pytest-cov", "more-itertools"]
 linter = [
-    "ruff>=0.8,<0.12 ; python_version >= '3.11'",
-    "mypy>=1,<2 ; python_version >= '3.11'",
-    "pylint>=3,<4 ; python_version >= '3.11'",
+    "ruff>=0.8,<0.12",
+    "mypy>=1,<2",
+    "pylint>=3,<4",
     "types-requests",
 ]
 documentation = [
-    "sphinx>=8,<9 ; python_version >= '3.11'",
-    "pydata-sphinx-theme>=0.15,<0.16 ; python_version >= '3.11'",
+    "sphinx>=8,<9",
+    "pydata-sphinx-theme>=0.15,<0.16",
 ]
 dev = ["ipython"]
 
@@ -41,7 +45,7 @@ check_untyped_defs = true
 
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py312"
 line-length = 150
 
 [tool.ruff.lint]
@@ -107,13 +111,6 @@ select = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
-[tool.ruff.lint.pyupgrade]
-# 以下のエラーが発生しないようにする。
-# FA100 Add `from __future__ import annotations` to simplify `typing.Optional`
-# https://beta.ruff.rs/docs/settings/#keep-runtime-typing
-# Python 3.9をサポートしなくなったら、この設定は不要になる
-keep-runtime-typing = true
 
 [tool.ruff.lint.pylint]
 max-args = 10

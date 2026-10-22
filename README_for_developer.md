@@ -4,16 +4,16 @@
 # 環境構築方法
 VSCode devcontainerを使用します。
 
-ホストで開発する場合は、uvとPython 3.11以降を用意して以下を実行します。
+ホストで開発する場合は、uvとPython 3.12以降を用意して以下を実行します。
 
 ```bash
-uv sync --locked
+uv sync --locked --python 3.12
 # IPythonも利用する場合
 uv sync --locked --group dev
 ```
 
 テスト・lint・ドキュメント用の依存関係は標準でインストールされます。
-Python 3.9・3.10では `uv sync --locked --no-default-groups --group test` でテスト環境を作成できます。
+CIではPython 3.12〜3.15でテストします。
 ローカルテストは `uv run pytest tests/test_local_*.py` で実行します。
 依存関係を更新する場合は `uv lock --upgrade` を実行し、`uv.lock` をコミットしてください。
 

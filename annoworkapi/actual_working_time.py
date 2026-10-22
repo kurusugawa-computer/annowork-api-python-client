@@ -4,7 +4,7 @@
 
 import datetime
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
 
 from annoworkapi.utils import datetime_to_str, str_to_datetime
 
@@ -15,8 +15,8 @@ key: (date, workspace_member_id, job_id), value: 実績作業時間
 
 
 def get_term_start_end_from_date_for_actual_working_time(
-    start_date: Optional[str], end_date: Optional[str], tzinfo: Optional[datetime.tzinfo] = None
-) -> tuple[Optional[str], Optional[str]]:
+    start_date: str | None, end_date: str | None, tzinfo: datetime.tzinfo | None = None
+) -> tuple[str | None, str | None]:
     """開始日と終了日から、実績作業時間を取得するAPIに渡すクエリパラメタterm_startとterm_endを返します。
 
     Args:
@@ -34,12 +34,12 @@ def get_term_start_end_from_date_for_actual_working_time(
         # システムのタイムゾーンを利用する
         tzinfo = datetime.datetime.now().astimezone().tzinfo
 
-    term_start: Optional[str] = None
+    term_start: str | None = None
     if start_date is not None:
         dt_local_start_date = datetime.datetime.fromisoformat(start_date).replace(tzinfo=tzinfo)
         term_start = datetime_to_str(dt_local_start_date)
 
-    term_end: Optional[str] = None
+    term_end: str | None = None
     if end_date is not None:
         dt_local_end_date = datetime.datetime.fromisoformat(end_date).replace(tzinfo=tzinfo)
         # end_date="2021-01-02"なら term_endは "2021-01-01T23:59:59.999"になるようにする
@@ -79,7 +79,7 @@ def _create_actual_working_hours_dict(actual: dict[str, Any], tzinfo: datetime.t
     return results_dict
 
 
-def create_actual_working_times_daily(actual_working_times: list[dict[str, Any]], tzinfo: Optional[datetime.tzinfo] = None) -> list[dict[str, Any]]:
+def create_actual_working_times_daily(actual_working_times: list[dict[str, Any]], tzinfo: datetime.tzinfo | None = None) -> list[dict[str, Any]]:
     """`getActualWorkingTimes` APIなどで取得した実績時間のlistから、日付、ジョブ、メンバ単位で集計した実績時間を生成します。
 
     Args:

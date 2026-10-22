@@ -4,7 +4,7 @@ import json
 import logging
 from json import JSONDecodeError
 from logging import Logger
-from typing import Any, Optional
+from typing import Any
 
 import backoff
 import requests
@@ -60,7 +60,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
 
         # request_bodyのpassword関係をマスクして、logに出力する
         request_body = response.request.body
-        request_body_for_logger: Optional[Any]
+        request_body_for_logger: Any | None
         if request_body is not None and request_body != "":
             try:
                 dict_request_body = json.loads(request_body)
@@ -88,7 +88,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
         )
 
 
-def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
+def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Logger | None = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
     """
     HTTPErrorが発生したとき、特定のstatus codeを無視して、処理する。
     無視した場合、Noneを返す。
@@ -122,7 +122,7 @@ def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Opti
     return decorator(func)
 
 
-def allow_404_error(func=None, /, *, logger: Optional[Logger] = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
+def allow_404_error(func=None, /, *, logger: Logger | None = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
     """
     Not Found Error(404)を無視(許容)して、処理するデコレータ。Not Found Errorが発生したときはNoneを返す。
     リソースの存在確認などに利用する。
@@ -250,7 +250,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         self.base_url = f"{endpoint_url}/api/v1"
         self.session = requests.Session()
 
-        self.token_dict: Optional[dict[str, Any]] = None
+        self.token_dict: dict[str, Any] | None = None
 
     class __MyToken(AuthBase):
         """
@@ -270,9 +270,9 @@ class AnnoworkApi(AbstractAnnoworkApi):
     #########################################
     def _create_kwargs(
         self,
-        params: Optional[dict[str, Any]] = None,
-        headers: Optional[dict[str, Any]] = None,
-        request_body: Optional[Any] = None,  # noqa: ANN401
+        params: dict[str, Any] | None = None,
+        headers: dict[str, Any] | None = None,
+        request_body: Any | None = None,  # noqa: ANN401
     ) -> dict[str, Any]:
         """
         requestsモジュールのget,...メソッドに渡すkwargsを生成する。
@@ -349,10 +349,10 @@ class AnnoworkApi(AbstractAnnoworkApi):
         http_method: str,
         url: str,
         *,
-        params: Optional[dict[str, Any]] = None,
-        data: Optional[Any] = None,  # noqa: ANN401
-        json: Optional[Any] = None,  # pylint: disable=redefined-outer-name, # noqa: ANN401
-        headers: Optional[dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
+        data: Any | None = None,  # noqa: ANN401
+        json: Any | None = None,  # pylint: disable=redefined-outer-name, # noqa: ANN401
+        headers: dict[str, Any] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Session情報を使って、HTTP Requestを投げる。
@@ -399,9 +399,9 @@ class AnnoworkApi(AbstractAnnoworkApi):
         http_method: str,
         url_path: str,
         *,
-        query_params: Optional[dict[str, Any]] = None,
-        header_params: Optional[dict[str, Any]] = None,
-        request_body: Optional[Any] = None,  # noqa: ANN401
+        query_params: dict[str, Any] | None = None,
+        header_params: dict[str, Any] | None = None,
+        request_body: Any | None = None,  # noqa: ANN401
         log_response_with_error: bool = True,
     ) -> Any:  # noqa: ANN401
         """

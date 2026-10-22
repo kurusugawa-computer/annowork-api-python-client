@@ -4,7 +4,7 @@
 
 from collections import defaultdict
 from collections.abc import Collection
-from typing import Any, Optional
+from typing import Any
 
 from annoworkapi import AnnoworkApi
 
@@ -12,7 +12,7 @@ ANNOFAB_PROJECT_URL_PREFIX = "https://annofab.com/projects/"
 """Annofabのプロジェクトを表すURLのプレフィックス"""
 
 
-def get_annofab_project_id_from_url(url: str) -> Optional[str]:
+def get_annofab_project_id_from_url(url: str) -> str | None:
     """ジョブの外部連携情報に設定されたURLからAnnofabプロジェクトのproject_idを取得します。
 
     Args:
@@ -59,7 +59,7 @@ class AnnofabWrapper:
         all_jobs = self.api.get_jobs(workspace_id)
         result = defaultdict(list)
 
-        def get_annofab_project_id_from_job(job: dict[str, Any]) -> Optional[str]:
+        def get_annofab_project_id_from_job(job: dict[str, Any]) -> str | None:
             url = job["external_linkage_info"].get("url")
             if url is not None:
                 return get_annofab_project_id_from_url(url)
