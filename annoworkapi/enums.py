@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,trailing-whitespace
 
 """
 annoworkapiのmodel

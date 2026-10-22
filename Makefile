@@ -14,9 +14,8 @@ format:
 
 lint:
 	uv run ruff check ${SOURCE_FILES} ${TEST_FILES}
-	# テストコードはチェックを緩和するためmypy, pylintは実行しない
+	# テストコードはチェックを緩和するためmypyは実行しない
 	uv run mypy ${SOURCE_FILES}
-	uv run pylint --jobs=0 ${SOURCE_FILES}
 
 test:
 	uv run pytest -n auto  --cov=annoworkapi --cov-report=html tests

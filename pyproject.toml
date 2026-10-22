@@ -23,18 +23,17 @@ dependencies = ["requests", "backoff"]
 Repository = "https://github.com/kurusugawa-computer/annowork-api-python-client"
 
 [dependency-groups]
-test = ["pytest>=8,<9", "pytest-xdist", "pytest-cov", "more-itertools"]
+test = ["pytest>=9.1.1", "pytest-xdist>=3.8.0", "pytest-cov>=7.1.0", "more-itertools>=11.2.1"]
 linter = [
-    "ruff>=0.8,<0.12",
-    "mypy>=1,<2",
-    "pylint>=3,<4",
-    "types-requests",
+    "ruff>=0.17.1",
+    "mypy>=2.4.0",
+    "types-requests>=2.33.0.20261006",
 ]
 documentation = [
-    "sphinx>=8,<9",
-    "pydata-sphinx-theme>=0.15,<0.16",
+    "sphinx>=9.1.1", # Python 3.12で利用可能な最新版。3.13以降では9.2以降を利用する
+    "pydata-sphinx-theme>=0.23.0",
 ]
-dev = ["ipython"]
+dev = ["ipython>=9.17.1"]
 
 [tool.uv]
 default-groups = ["test", "linter", "documentation"]
@@ -50,6 +49,7 @@ line-length = 150
 
 [tool.ruff.lint]
 ignore = [
+    "CPY001", # 著作権表示はリポジトリのLICENSEで管理する
     "G004", # `logging-f-string` : loggingでf-stringを使いたいので無視する
     "RUF001", # 全角記号など`ambiguous unicode character`も使いたいため
     "RUF002",# 全角記号など`ambiguous unicode character`も使いたいため
@@ -84,7 +84,7 @@ ignore = [
     "ICN", # flake8-import-conventions
     "RET",#flake8-return
     "SIM",#flake8-simplify
-    "TCH", # flake8-type-checking
+    "TC", # flake8-type-checking
     "PTH", #pathlibを使わないコードが多いので、除外する
     "ISC", #flake8-implicit-str-concat
     "N", # pep8-naming
