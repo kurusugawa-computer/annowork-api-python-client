@@ -1,1 +1,6 @@
-__version__ = "0.0.0"  # `poetry-dynamic-versioning`を使ってGitHubのバージョンタグを取得している。変更不要
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("annoworkapi")
+except PackageNotFoundError:
+    __version__ = "0.0.0"

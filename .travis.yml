@@ -2,18 +2,18 @@ dist: focal
 language: python
 jobs:
   include:
-    - python: 3.9
-    - python: 3.10
-    - python: 3.11
+    - python: 3.12
       script:
         # 開発環境と同じPythonバージョンのときだけlintを実行する
         - make lint
-    - python: 3.12
+    - python: 3.13
+    - python: 3.14
+    - python: 3.15
 
 install:
   - pip install pip --upgrade
-  - pip install "poetry<1.8"
-  - travis_retry poetry install --only main,linter,test
+  - pip install uv==0.12.21
+  - travis_retry uv sync --locked --no-default-groups --group linter --group test
 
 before_script:
   - export TZ=Asia/Tokyo
@@ -21,7 +21,7 @@ before_script:
   - echo "Asia/Tokyo" > sudo tee /etc/timezone  > /dev/null
 
 script:
-   - poetry run pytest tests/test_local_*.py
+   - uv run --locked --no-default-groups --group test pytest tests/test_local_*.py
 
 branches:
   only:

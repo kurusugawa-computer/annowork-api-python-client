@@ -1,54 +1,43 @@
-[tool.poetry]
+[project]
 name = "annoworkapi"
-version = "0.0.0"  # `poetry-dynamic-versioning`を使ってGitHubのバージョンタグを取得している。変更不要
-description = "Python Clinet Library of Annowork WebAPI"
-authors = ["Kurusugawa Computer Inc."]
+dynamic = ["version"]
+description = "Python Client Library of Annowork WebAPI"
+authors = [{ name = "Kurusugawa Computer Inc." }]
+requires-python = ">=3.12,<4"
 license = "MIT"
-keywords=["annowork", "api"]
-readme="README.md"
-repository="https://github.com/kurusugawa-computer/annowork-api-python-client"
+keywords = ["annowork", "api"]
+readme = "README.md"
 classifiers = [
-        "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Developers",
-        "Topic :: Utilities",
-        "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
 ]
+dependencies = ["requests", "backoff"]
 
+[project.urls]
+Repository = "https://github.com/kurusugawa-computer/annowork-api-python-client"
 
-[tool.poetry.dependencies]
-python = "^3.9"
-requests = "*"
-backoff="*"
+[dependency-groups]
+test = ["pytest>=8,<9", "pytest-xdist", "pytest-cov", "more-itertools"]
+linter = [
+    "ruff>=0.8,<0.12",
+    "mypy>=1,<2",
+    "pylint>=3,<4",
+    "types-requests",
+]
+documentation = [
+    "sphinx>=8,<9",
+    "pydata-sphinx-theme>=0.15,<0.16",
+]
+dev = ["ipython"]
 
-[tool.poetry.group.test.dependencies]
-# test library
-pytest = "^8"
-pytest-xdist = "*"
-pytest-cov = "*"
-more-itertools = "*"
-
-[tool.poetry.group.linter.dependencies]
-# lint library
-# pythonバージョンを指定している理由：lintは開発環境と同じPythonバージョンで実行するため。また古いPythonバージョンにサポートしていないライブラリのバージョンがあるため
-ruff = {version=">=0.8,<0.12", python = ">=3.11"}
-mypy = {version="^1", python = ">=3.11"}
-pylint = {version="^3", python = ">=3.11"}
-
-# type stub package
-types-requests = "*"
-
-[tool.poetry.group.documentation.dependencies]
-sphinx = {version="^8", python = ">=3.11"}
-pydata-sphinx-theme = {version="^0.15", python = ">=3.11"}
-
-
-[tool.poetry.group.dev]
-# 開発するときのみ必要なライブラリ。インストールしなくても開発はできるので、オプショナルにする
-optional = true
-
-[tool.poetry.group.dev.dependencies]
-ipython = "*"
-
+[tool.uv]
+default-groups = ["test", "linter", "documentation"]
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -56,7 +45,7 @@ check_untyped_defs = true
 
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py312"
 line-length = 150
 
 [tool.ruff.lint]
@@ -123,22 +112,14 @@ select = [
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.lint.pyupgrade]
-# 以下のエラーが発生しないようにする。
-# FA100 Add `from __future__ import annotations` to simplify `typing.Optional`
-# https://beta.ruff.rs/docs/settings/#keep-runtime-typing
-# Python 3.9をサポートしなくなったら、この設定は不要になる
-keep-runtime-typing = true
-
 [tool.ruff.lint.pylint]
 max-args = 10
 
 
-[tool.poetry-dynamic-versioning]
-enable = true
-
-
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
 

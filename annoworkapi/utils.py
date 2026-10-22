@@ -13,7 +13,7 @@ def str_to_datetime(str_datetime: str) -> datetime.datetime:
         datetime object
     """
     # 末尾がZだと、datetime.fromisoformatが利用できないので、strptimeでパースする
-    return datetime.datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.timezone.utc)
+    return datetime.datetime.strptime(str_datetime, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=datetime.UTC)
 
 
 def datetime_to_str(dt: datetime.datetime) -> str:
@@ -33,4 +33,4 @@ def datetime_to_str(dt: datetime.datetime) -> str:
     # strftimeメソッドを利用すると、マイクロ秒まで出力されるので、一旦`isoformat`メソッドでミリ秒まで出力してから、timezoneを"Z"に置換する
     if dt.tzinfo is None:
         raise ValueError("datetimeオブジェクトにはタイムゾーン情報が含まれていません。")
-    return dt.astimezone(datetime.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return dt.astimezone(datetime.UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")

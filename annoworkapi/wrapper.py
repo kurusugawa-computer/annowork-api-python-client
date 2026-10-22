@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import logging
 from collections import defaultdict
-from typing import Any, Optional
+from typing import Any
 
 from annoworkapi.actual_working_time import (
     create_actual_working_times_daily,
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def _filter_actual_working_times_daily(
-    actual_daily_list: list[dict[str, Any]], term_start_date: Optional[str], term_end_date: Optional[str]
+    actual_daily_list: list[dict[str, Any]], term_start_date: str | None, term_end_date: str | None
 ) -> list[dict[str, Any]]:
     if term_start_date is None and term_end_date is None:
         return actual_daily_list
@@ -47,10 +47,10 @@ class Wrapper:
     # Account
     ###################################################################################################################
     @allow_404_error(logger=logger)
-    def get_account_external_linkage_info_or_none(self, user_id: str) -> Optional[dict[str, Any]]:
+    def get_account_external_linkage_info_or_none(self, user_id: str) -> dict[str, Any] | None:
         return self.api.get_account_external_linkage_info(user_id, log_response_with_error=False)
 
-    def get_annofab_account_id_from_user_id(self, user_id: str) -> Optional[str]:
+    def get_annofab_account_id_from_user_id(self, user_id: str) -> str | None:
         info = self.get_account_external_linkage_info_or_none(user_id)
         if info is None:
             return None
@@ -60,23 +60,23 @@ class Wrapper:
         return info["external_linkage_info"]["annofab"].get("account_id")
 
     @allow_404_error(logger=logger)
-    def get_workspace_or_none(self, workspace_id: str) -> Optional[dict[str, Any]]:
+    def get_workspace_or_none(self, workspace_id: str) -> dict[str, Any] | None:
         return self.api.get_workspace(workspace_id, log_response_with_error=False)
 
     @allow_404_error(logger=logger)
-    def get_workspace_tag_or_none(self, workspace_id: str, workspace_tag_id: str) -> Optional[dict[str, Any]]:
+    def get_workspace_tag_or_none(self, workspace_id: str, workspace_tag_id: str) -> dict[str, Any] | None:
         return self.api.get_workspace_tag(workspace_id, workspace_tag_id, log_response_with_error=False)
 
     @allow_404_error(logger=logger)
-    def get_job_or_none(self, workspace_id: str, job_id: str) -> Optional[dict[str, Any]]:
+    def get_job_or_none(self, workspace_id: str, job_id: str) -> dict[str, Any] | None:
         return self.api.get_job(workspace_id, job_id, log_response_with_error=False)
 
     @allow_404_error(logger=logger)
-    def get_job_children_or_none(self, workspace_id: str, job_id: str) -> Optional[list[dict[str, Any]]]:
+    def get_job_children_or_none(self, workspace_id: str, job_id: str) -> list[dict[str, Any]] | None:
         return self.api.get_job_children(workspace_id, job_id, log_response_with_error=False)
 
     @allow_404_error(logger=logger)
-    def get_workspace_member_or_none(self, workspace_id: str, workspace_member_id: str) -> Optional[dict[str, Any]]:
+    def get_workspace_member_or_none(self, workspace_id: str, workspace_member_id: str) -> dict[str, Any] | None:
         return self.api.get_workspace_member(workspace_id, workspace_member_id, log_response_with_error=False)
 
     ###################################################################################################################
@@ -86,10 +86,10 @@ class Wrapper:
         self,
         workspace_id: str,
         *,
-        job_id: Optional[str] = None,
-        term_start_date: Optional[str] = None,
-        term_end_date: Optional[str] = None,
-        tzinfo: Optional[datetime.tzinfo] = None,
+        job_id: str | None = None,
+        term_start_date: str | None = None,
+        term_end_date: str | None = None,
+        tzinfo: datetime.tzinfo | None = None,
     ) -> list[dict[str, Any]]:
         """ワークスペース全体の実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
@@ -123,9 +123,9 @@ class Wrapper:
         workspace_id: str,
         workspace_member_id: str,
         *,
-        term_start_date: Optional[str] = None,
-        term_end_date: Optional[str] = None,
-        tzinfo: Optional[datetime.tzinfo] = None,
+        term_start_date: str | None = None,
+        term_end_date: str | None = None,
+        tzinfo: datetime.tzinfo | None = None,
     ) -> list[dict[str, Any]]:
         """ワークスペースメンバーに対する実績時間を一括取得します。実績時間は日、ジョブ、メンバ単位で集計されています。
 
@@ -162,9 +162,9 @@ class Wrapper:
         self,
         workspace_id: str,
         *,
-        term_start: Optional[str] = None,
-        term_end: Optional[str] = None,
-        job_id: Optional[str] = None,
+        term_start: str | None = None,
+        term_end: str | None = None,
+        job_id: str | None = None,
     ) -> list[dict[str, Any]]:
         """日、ジョブ、メンバ単位のアサイン時間を取得します。
 

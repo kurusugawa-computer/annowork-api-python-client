@@ -1,7 +1,6 @@
 import logging
 import netrc
 import os
-from typing import Optional
 from urllib.parse import urlparse
 
 from annoworkapi.api import DEFAULT_ENDPOINT_URL, AnnoworkApi
@@ -72,8 +71,8 @@ def build_from_env(*, endpoint_url: str = DEFAULT_ENDPOINT_URL) -> Resource:
 
 def build(
     *,
-    login_user_id: Optional[str] = None,
-    login_password: Optional[str] = None,
+    login_user_id: str | None = None,
+    login_password: str | None = None,
     endpoint_url: str = DEFAULT_ENDPOINT_URL,
 ) -> Resource:
     """

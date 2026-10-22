@@ -39,7 +39,7 @@ class Test_get_term_start_end_from_date_for_actual_working_time:
         assert actual[1] == "2021-04-01T14:59:59.999Z"
 
     def test_with_utc(self):
-        actual = get_term_start_end_from_date_for_actual_working_time("2021-04-01", "2021-04-01", tzinfo=datetime.timezone.utc)
+        actual = get_term_start_end_from_date_for_actual_working_time("2021-04-01", "2021-04-01", tzinfo=datetime.UTC)
         assert actual[0] == "2021-04-01T00:00:00.000Z"
         assert actual[1] == "2021-04-01T23:59:59.999Z"
 

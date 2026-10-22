@@ -1,7 +1,4 @@
-from typing import Optional
-
-
-def get_parent_job_id_from_job_tree(job_tree: str) -> Optional[str]:
+def get_parent_job_id_from_job_tree(job_tree: str) -> str | None:
     """job_treeから親のjob_idを取得します。
     親のジョブがない場合はNoneを返します。
 

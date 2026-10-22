@@ -4,6 +4,19 @@
 # 環境構築方法
 VSCode devcontainerを使用します。
 
+ホストで開発する場合は、uvとPython 3.12以降を用意して以下を実行します。
+
+```bash
+uv sync --locked --python 3.12
+# IPythonも利用する場合
+uv sync --locked --group dev
+```
+
+テスト・lint・ドキュメント用の依存関係は標準でインストールされます。
+CIではPython 3.12〜3.15でテストします。
+ローカルテストは `uv run pytest tests/test_local_*.py` で実行します。
+依存関係を更新する場合は `uv lock --upgrade` を実行し、`uv.lock` をコミットしてください。
+
 ## requirement
 * ホスト側に以下の環境変数が設定されていること
     * `ANNOWORK_USER_ID`：AnnoworkにログインするときのユーザID
@@ -25,9 +38,7 @@ VSCode devcontainerを使用します。
 
 ## 作業手順
 1. `generate/generate.sh --download --github_token ${GITHUB_TOKEN}`コマンドを実行して、pythonソースコードを生成する
-2. バージョンを上げる
-    * `annoworkcli/__version__.py`
-    * `pyproject.toml`
+2. `make format` と `make lint` を実行する。
 
 
 # Release
@@ -35,7 +46,7 @@ GitHubのReleasesからリリースしてください。
 バージョンはSemantic Versioningに従います。
 リリースすると、以下の状態になります。
 
-* ソース内のバージョン情報（`pyproject.toml`, `__version__.py`）は、https://github.com/mtkennerly/poetry-dynamic-versioning でGitHubのバージョンタグから生成されます。
+* パッケージのバージョンは、uv-dynamic-versioning によりGitHubのバージョンタグから生成されます。`annoworkapi.__version__` はインストール済みパッケージのメタデータから取得します。
 * 自動でPyPIに公開されます。
 
 
