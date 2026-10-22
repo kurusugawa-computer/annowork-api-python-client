@@ -1,5 +1,4 @@
 # ruff: noqa: E501, ANN401
-# pylint: disable=too-many-lines,trailing-whitespace
 
 """
 AbstractAnnoworkApiのヘッダ部分
@@ -9,7 +8,7 @@ Note:
 """
 
 import abc
-from typing import Any  # pylint: disable=unused-import
+from typing import Any
 
 
 class AbstractAnnoworkApi(abc.ABC):

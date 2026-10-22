@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,trailing-whitespace
 
 """
 annoworkapiのmodel
@@ -9,7 +8,7 @@ Note:
     このファイルはopenapi-generatorで自動生成される。
 """
 
-import warnings  # pylint: disable=unused-import
-from typing import Any, Optional, Union, NewType  # pylint: disable=unused-import
+import warnings
+from typing import Any, Optional, Union, NewType
 from enum import Enum
 

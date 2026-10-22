@@ -88,7 +88,7 @@ def _log_error_response(arg_logger: logging.Logger, response: requests.Response)
         )
 
 
-def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Logger | None = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
+def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Logger | None = None):  # noqa: ANN001
     """
     HTTPErrorが発生したとき、特定のstatus codeを無視して、処理する。
     無視した場合、Noneを返す。
@@ -122,7 +122,7 @@ def ignore_http_error(func=None, /, *, status_code_list: list[int], logger: Logg
     return decorator(func)
 
 
-def allow_404_error(func=None, /, *, logger: Logger | None = None):  # pylint: disable=redefined-outer-name, # noqa: ANN001
+def allow_404_error(func=None, /, *, logger: Logger | None = None):  # noqa: ANN001
     """
     Not Found Error(404)を無視(許容)して、処理するデコレータ。Not Found Errorが発生したときはNoneを返す。
     リソースの存在確認などに利用する。
@@ -351,7 +351,7 @@ class AnnoworkApi(AbstractAnnoworkApi):
         *,
         params: dict[str, Any] | None = None,
         data: Any | None = None,  # noqa: ANN401
-        json: Any | None = None,  # pylint: disable=redefined-outer-name, # noqa: ANN401
+        json: Any | None = None,  # noqa: ANN401
         headers: dict[str, Any] | None = None,
         **kwargs,
     ) -> requests.Response:
