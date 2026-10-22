@@ -67,14 +67,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=on \
     PIP_DISABLE_PIP_VERSION_CHECK=on
 
-# poetry
-RUN set -x \
-    && python -m pip install -U \
-        pip \
-        setuptools \
-        requests \
-    && python -m pip install \
-        "poetry<1.8"
+# uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.21 /uv /uvx /usr/local/bin/
+ENV UV_LINK_MODE=copy
 
 # Add user / Grant sudo privileges
 RUN useradd -m -s /bin/bash -u 5000 -U vscode \
@@ -83,8 +78,6 @@ RUN useradd -m -s /bin/bash -u 5000 -U vscode \
     && usermod -aG docker vscode
 
 USER vscode
-
-RUN poetry config virtualenvs.in-project true
 
 # vscode extensions cache
 # https://code.visualstudio.com/docs/remote/containers-advanced#_avoiding-extension-reinstalls-on-container-rebuild

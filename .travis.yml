@@ -12,8 +12,8 @@ jobs:
 
 install:
   - pip install pip --upgrade
-  - pip install "poetry<1.8"
-  - travis_retry poetry install --only main,linter,test
+  - pip install uv==0.12.21
+  - travis_retry uv sync --locked --no-default-groups --group linter --group test
 
 before_script:
   - export TZ=Asia/Tokyo
@@ -21,7 +21,7 @@ before_script:
   - echo "Asia/Tokyo" > sudo tee /etc/timezone  > /dev/null
 
 script:
-   - poetry run pytest tests/test_local_*.py
+   - uv run --locked --no-default-groups --group test pytest tests/test_local_*.py
 
 branches:
   only:
