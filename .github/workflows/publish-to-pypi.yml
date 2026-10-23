@@ -16,7 +16,7 @@ jobs:
       uses: astral-sh/setup-uv@v7
       with:
         python-version: "3.12"
-        version: "0.12.21"
+        version: "latest"
     - name: Build
       run: uv build
     - name: Publish
