@@ -1,0 +1,4 @@
+title = "annowork-api-python-client gitleaks config"
+
+[extend]
+useDefault = true
