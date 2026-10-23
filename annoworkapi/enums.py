@@ -1,4 +1,3 @@
-
 """
 annoworkapiのmodel
 enumならば列挙体として定義する。
