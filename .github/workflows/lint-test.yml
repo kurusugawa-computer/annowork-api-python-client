@@ -23,7 +23,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-          version: "0.12.21"
+          version: "latest"
       - name: Install dependencies
         run: uv sync --locked --no-default-groups --group test
       - name: Set timezone
@@ -43,7 +43,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.12"
-          version: "0.12.21"
+          version: "latest"
       - name: Install dependencies
         run: uv sync --locked
       - name: Lint

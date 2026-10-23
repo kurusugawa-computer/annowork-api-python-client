@@ -36,6 +36,7 @@ documentation = [
 dev = ["ipython>=9.17.1"]
 
 [tool.uv]
+required-version = ">=0.13.4"
 default-groups = ["test", "linter", "documentation"]
 
 [tool.mypy]
