@@ -30,6 +30,7 @@ test = [
     "more-itertools>=11.2.1",
 ]
 linter = [
+    "pre-commit>=4.7.0",
     "ruff>=0.17.2",
     "mypy>=2.4.0",
     "types-requests>=2.33.0.20261006",
