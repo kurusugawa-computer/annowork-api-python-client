@@ -23,17 +23,25 @@ dependencies = ["requests", "backoff"]
 Repository = "https://github.com/kurusugawa-computer/annowork-api-python-client"
 
 [dependency-groups]
-test = ["pytest>=9.1.1", "pytest-xdist>=3.8.0", "pytest-cov>=7.1.0", "more-itertools>=11.2.1"]
+test = [
+    "pytest>=9.1.1",
+    "pytest-xdist>=3.8.0",
+    "pytest-cov>=7.1.0",
+    "more-itertools>=11.2.1",
+]
 linter = [
-    "ruff>=0.17.1",
+    "ruff>=0.17.2",
     "mypy>=2.4.0",
     "types-requests>=2.33.0.20261006",
 ]
 documentation = [
-    "sphinx>=9.1.1", # Python 3.12で利用可能な最新版。3.13以降では9.2以降を利用する
+    "sphinx>=9.1.1; python_version < '3.13'",
+    "sphinx>=9.2.0; python_version >= '3.13'",
     "pydata-sphinx-theme>=0.23.0",
 ]
-dev = ["ipython>=9.17.1"]
+dev = [
+    "ipython>=9.17.1",
+]
 
 [tool.uv]
 required-version = ">=0.13.4"
@@ -42,7 +50,6 @@ default-groups = ["test", "linter", "documentation"]
 [tool.mypy]
 ignore_missing_imports = true
 check_untyped_defs = true
-
 
 [tool.ruff]
 target-version = "py312"
@@ -109,13 +116,11 @@ select = [
     "PLC2401", # non-ascii-name, メソッド名に日本語を利用するため
 ]
 
-
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.pylint]
 max-args = 10
-
 
 [build-system]
 requires = ["hatchling", "uv-dynamic-versioning"]
@@ -123,7 +128,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
-
 
 [tool.uv-dynamic-versioning]
 fallback-version = "0.0.0"
